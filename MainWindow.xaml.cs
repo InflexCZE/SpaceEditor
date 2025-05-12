@@ -46,7 +46,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         if (string.IsNullOrWhiteSpace(this.GamePath))
         {
-            this.InfoText.Text = "First, please show me where is the Game installed";
+            this.InfoText.Text = $"First, please show me where is the Game installed by pressing the '{LocateGameButton.Content.ToString()}' button";
             return;
         }
 
@@ -106,6 +106,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         var dialog = new OpenFolderDialog
         {
             Multiselect = false,
+            Title = "Select Space Engineers 2's Directory"
         };
 
         var found = dialog.ShowDialog(this);
