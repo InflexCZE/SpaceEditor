@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="SpaceEditor.Controls.InputsEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpaceEditor.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBox
+            Grid.Column="0"
+            IsReadOnly="True"
+            Margin="0, 0, 2, 0"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto"
+            Text="{Binding Path=DataString, Mode=OneWay}"
+            />
+
+        <GridSplitter
+            Grid.Column="1"
+            />
+
+        <Grid
+            Grid.Column="2"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBox
+                Margin="2, 0, 2, 2"
+                Text="{Binding Path=InputActionsSearchString, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                />
+
+            <ListBox
+                Grid.Row="1"
+                Margin="2, 0, 2, 0"
+                Name="ActionList"
+                SelectionMode="Single"
+                SelectionChanged="OnInputActionSelected"
+                DisplayMemberPath="DisplayName"
+                />
+        </Grid>
+
+        <GridSplitter
+            Grid.Column="3"
+            />
+
+        <Image
+            Grid.Column="4"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            Opacity="0.4"
+            Stretch="Fill"
+            Margin="2, 0, 0, 0"
+            Source="pack://application:,,,/Resources/SpaceEditor.png"
+        />
+
+        <local:ReflectedCollection
+            Grid.Column="4"
+            Margin="2, 0, 0, 0"
+            x:Name="BindingsEditor"
+            />
+    </Grid>
+</UserControl>
