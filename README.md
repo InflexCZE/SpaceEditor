@@ -18,7 +18,7 @@ Space Editor can currently edit Key bindings on SE2 game.
 
 
 ## Installation
-1) Navigate to [Releases page]([/releases](https://github.com/InflexCZE/SpaceEditor/releases)) and download latest Space Editor archive.
+1) Navigate to [Releases](https://github.com/InflexCZE/SpaceEditor/releases) and download latest Space Editor archive.
 2) Extract Space Editor archive anywhere on your disk.
 3) Locate the `SpaceEditor.exe` to start the editor.
 4) Make desired changes to the game and restart the game to observe the changes.
