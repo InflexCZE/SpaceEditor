@@ -83,6 +83,12 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9.1</Run>
+                            <LineBreak />
+                            <Run>- Fixed detection of bins location in Steam builds</Run>
+                            <LineBreak />
+                            <LineBreak />
+                            
                             <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9</Run>
                             <LineBreak />
                             <Run>- Locates and loads SE2 binaries</Run>
