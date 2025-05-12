@@ -94,6 +94,7 @@ public class InputIds
 public class GameProxy
 {
     public string BaseGamePath { get; }
+    public string BinsPath { get; }
 
     public Assembly MainAssembly { get; }
     
@@ -103,8 +104,9 @@ public class GameProxy
     public GameProxy(string baseGamePath)
     {
         this.BaseGamePath = baseGamePath;
+        this.BinsPath = GameFacts.GetBinsPath(baseGamePath);
 
-        var se2 = ReflectionRocks.GetLib(GameFacts.GetBinsPath(baseGamePath), GameFacts.MainDll);
+        var se2 = ReflectionRocks.GetLib(this.BinsPath, GameFacts.MainDll);
         this.MainAssembly = se2;
 
         var st =  FindType("Keen.VRage.Library.Utils.Singleton");
@@ -118,8 +120,7 @@ public class GameProxy
 
     public Type FindType(string typeName)
     {
-        var binsPath = GameFacts.GetBinsPath(this.BaseGamePath);
-        return ReflectionRocks.TryFindType(binsPath, GameFacts.WellKnownGameBins, typeName) ??
+        return ReflectionRocks.TryFindType(this.BinsPath, GameFacts.WellKnownGameBins, typeName) ??
                throw new Exception($"Type {typeName} not found");
     }
 

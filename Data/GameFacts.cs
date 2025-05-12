@@ -18,10 +18,9 @@ public static class GameFacts
 
     public static string GetBinsPath(string baseGamePath)
     {
-        var bins = TryFindTargetPath(baseGamePath, ["Sources", "Game2", "bin", "Debug"]) ??
-                   TryFindTargetPath(baseGamePath, ["bins"]);
-        
-        return bins ?? throw new Exception($"Bins not found in {baseGamePath}");
+        var exe = MainDll + ".exe";
+        var exePath = TryFindTargetPath(baseGamePath, ["Game2"], exe);
+        return Path.GetDirectoryName(exePath ?? throw new Exception($"Bins not found in {baseGamePath}"))!;
     }
 
     public static string GetContentPath(string baseGamePath)
