@@ -5,10 +5,15 @@
              StartupUri="MainWindow.xaml"
              Exit="OnExit">
     <Application.Resources>
-         <Style TargetType="GridSplitter">
-            <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
-            <Setter Property="Background" Value="#FF7F7F7F"/>
-            <Setter Property="Width" Value="4"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--Load all themes and keep them for later-->
+                <ResourceDictionary Source="Themes/Light.xaml"/>
+                <ResourceDictionary Source="Themes/Dark.xaml"/>
+
+                <!--Override any changes we don't want themes to modify/declare themselves-->
+                <ResourceDictionary Source="Themes/Global.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

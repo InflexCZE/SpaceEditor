@@ -12,95 +12,113 @@
         Width="1000"
         d:DataContext="{local:MainWindow}"
         >
-    <TabControl
-        Name="MainTabs"
-        >
-        <TabItem Header="Main">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel
-                    Orientation="Horizontal"
-                    Margin="0, 0, 0, 2"
-                    >
-                    <TextBox Text="{Binding GamePath}" Width="400"  />
-                    <Button Margin="2, 0, 0, 0" Padding="4, 2, 4, 2" Click="OnLocateGame" Content="Locate Game" />
-                </StackPanel>
-
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Name="InfoText"
-                    IsReadOnly="True"
-                    />
-
-                <Image
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Opacity="0.4"
-                    Stretch="Fill"
-                    Source="pack://application:,,,/Resources/SpaceEditor.png"
-                    />
-
-                <Grid
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="23*"/>
+            <ColumnDefinition Width="177*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl
+    Name="MainTabs" Grid.ColumnSpan="2"
+    >
+            <TabItem Header="Main" x:Name="MainTabItem">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="FontSize" Value="15" />
-                        </Style>
-                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        Text="Change log"
-                        FontSize="35"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Margin="5"
-                        />
+                    <StackPanel
+                Orientation="Horizontal"
+                Margin="0, 0, 0, 2"
+                >
+                        <TextBox Text="{Binding GamePath}" Width="400"  />
+                        <Button Margin="2, 0, 0, 0" Padding="4, 2, 4, 2" Click="OnLocateGame" Content="Locate Game" x:Name="LocateGameButton"/>
+                    </StackPanel>
 
-                    <ScrollViewer
-                        Grid.Row="1"
-                        VerticalScrollBarVisibility="Auto"
-                        HorizontalScrollBarVisibility="Auto"
-                        >
+                    <TextBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Name="InfoText"
+                IsReadOnly="True"
+                />
+
+                    <Image
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Opacity="0.4"
+                Stretch="Fill"
+                Source="pack://application:,,,/Resources/SpaceEditor.png"
+                />
+
+                    <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="FontSize" Value="15" />
+                            </Style>
+                        </Grid.Resources>
+
                         <TextBlock
-                            Margin="10, 0, 0, 0"
-                            >
-                            <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9.1</Run>
-                            <LineBreak />
-                            <Run>- Fixed detection of bins location in Steam builds</Run>
-                            <LineBreak />
-                            <LineBreak />
-                            
-                            <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9</Run>
-                            <LineBreak />
-                            <Run>- Locates and loads SE2 binaries</Run>
-                            <LineBreak />
-                            <Run> - Key Binds Editor Mk1</Run>
-                            <LineBreak />
-                            <Run> - Writes new Bindings to SE2 Content</Run>
+                    Text="Change log"
+                    FontSize="35"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="5"
+                    >
                         </TextBlock>
-                    </ScrollViewer>
+
+                        <ScrollViewer
+                    Grid.Row="1"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Auto"
+                    >
+                            <TextBlock
+                        Margin="10, 0, 0, 0"
+                        >
+                        <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9.1</Run>
+                        <LineBreak />
+                        <Run>- Fixed detection of bins location in Steam builds</Run>
+                        <LineBreak />
+                        <LineBreak />
+                        
+                        <Run FontSize="20" FontWeight="Bold">May 12 2025 - v0.9</Run>
+                        <LineBreak />
+                        <Run>- Locates and loads SE2 binaries</Run>
+                        <LineBreak />
+                        <Run> - Key Binds Editor Mk1</Run>
+                        <LineBreak />
+                        <Run> - Writes new Bindings to SE2 Content</Run>
+                            </TextBlock>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </TabItem>
-    </TabControl>
+            </TabItem>
+        </TabControl>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Toolbar" Height="{Binding ActualHeight, ElementName=MainTabItem}" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="5">Theme</TextBlock>
+                    <ComboBox SelectedIndex="{Binding Theme, Mode=TwoWay}" Width="65">
+                        <ComboBoxItem>Light</ComboBoxItem>
+                        <ComboBoxItem>Dark</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
 
 </Window>

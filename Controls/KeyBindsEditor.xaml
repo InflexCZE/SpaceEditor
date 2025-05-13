@@ -47,12 +47,6 @@
             VerticalAlignment="Center"
             Name="ActionButtons"
             >
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="2, 0, 0, 0" />
-                    <Setter Property="Padding" Value="2" />
-                </Style>
-            </StackPanel.Resources>
 
             <Button
                 Content="Save"
