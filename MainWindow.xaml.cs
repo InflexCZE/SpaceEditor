@@ -44,18 +44,27 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     }
 
     private List<ResourceDictionary> _themes = new();
+    private ResourceDictionary _globalTheme;
 
     public MainWindow()
     {
         this.DataContext = this;
         this.Loaded += Reload;
         InitializeComponent();
+
+        var resources = Application.Current.Resources.MergedDictionaries;
+        //Theme index is determined in App.xaml
+        for (int i = 0; i < resources.Count - 1; i++)
+        {
+            _themes.Add(resources[i]);
+        }
+
+        _globalTheme = resources.Last();
+        OnThemeChanged(this.Settings.Theme);
     }
 
     private async void Reload(object sender, RoutedEventArgs e)
     {
-        OnThemeChanged(this.Settings.Theme);
-
         var tabs = this.MainTabs.Items;
         while (tabs.Count > 1)
         {
@@ -142,12 +151,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void OnThemeChanged(int themeIndex)
     {
         var resources = Application.Current.Resources.MergedDictionaries;
-        while (resources.Count > 1) //Remove all but the last, that is the global theme.
-        {
-            _themes.Add(resources[0]);
-            resources.RemoveAt(0);
-        }
-
-        resources.Insert(0, _themes[themeIndex]);
+        resources.Clear();
+        resources.Add(_themes[themeIndex]);
+        resources.Add(_globalTheme);
     }
 }
