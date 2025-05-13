@@ -9,6 +9,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Name="Root">
     <UserControl.Resources>
+        <Style TargetType="local:ReflectedObject">
+            <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+            <Setter Property="Background" Value="{DynamicResource Background}" />
+        </Style>
         <local:FlatGroupingDataGridOperator x:Key="FlatGroupingDataGridOperator" />
         
         <DataTemplate x:Key="NotNullTemplate">

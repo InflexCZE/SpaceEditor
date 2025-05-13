@@ -4,7 +4,7 @@
     <SolidColorBrush x:Key="Foreground" Color="White"/>
 
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Black" />
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="DarkGray" />
     <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#404040" />
     <SolidColorBrush x:Key="MouseoverBackgroundBrush" Color="#202020" />
     <SolidColorBrush x:Key="UnselectedBackgroundBrush" Color="#050505" />
