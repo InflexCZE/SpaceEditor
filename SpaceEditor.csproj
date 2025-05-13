@@ -42,4 +42,24 @@
     </None>
   </ItemGroup>
 
+	<Target Name="ZipPublishOutput" AfterTargets="Publish">
+		<ItemGroup>
+			<ZipOutputPath Include="$(PublishDir)..\..\$(MSBuildProjectName).zip" />
+		</ItemGroup>
+
+		<ZipDirectory
+			SourceDirectory="$(PublishDir).."
+			DestinationFile="@(ZipOutputPath)" />
+
+		<RemoveDir
+            Directories="$(PublishDir)"
+            />
+
+		<Move
+			SourceFiles="@(ZipOutputPath)"
+			DestinationFolder="$(PublishDir)"
+            />
+
+	</Target>
+
 </Project>
