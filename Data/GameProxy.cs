@@ -94,6 +94,7 @@ public class InputIds
 public class GameProxy
 {
     public string BaseGamePath { get; }
+    public string ContentPath { get; }
     public string BinsPath { get; }
 
     public Assembly MainAssembly { get; }
@@ -105,6 +106,7 @@ public class GameProxy
     {
         this.BaseGamePath = baseGamePath;
         this.BinsPath = GameFacts.GetBinsPath(baseGamePath);
+        this.ContentPath = GameFacts.GetContentPath(baseGamePath);
 
         var se2 = ReflectionRocks.GetLib(this.BinsPath, GameFacts.MainDll);
         this.MainAssembly = se2;

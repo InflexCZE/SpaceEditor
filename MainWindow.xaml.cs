@@ -80,6 +80,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 Content = new KeyBindsEditor(game)
             });
 
+            tabs.Add(new TabItem
+            {
+                Header = "PCU Unlocker",
+                Content = new PCUUnlocker(game)
+            });
+
             var sb = new StringBuilder();
             sb.AppendLine("Loading finished");
             sb.AppendLine();
