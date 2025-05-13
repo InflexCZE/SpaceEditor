@@ -14,9 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Themes\Dark.xaml" />
+    <Page Remove="Themes\Global.xaml" />
+    <Page Remove="Themes\Light.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\SpaceEditor.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Themes\Dark.xaml" />
+    <Resource Include="Themes\Global.xaml" />
+    <Resource Include="Themes\Light.xaml" />
     <Content Include="SpaceEditor.ico" />
   </ItemGroup>
 

@@ -41,7 +41,7 @@ internal sealed partial class Settings
     public void InvokeGameAction(Action action)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("This action is about change Game Content which may result in incompatibilities, bugs or crashes.");
+        sb.AppendLine("This action is about to change Game Content which may result in incompatibilities, bugs or crashes.");
         sb.AppendLine("In case of any issues use Steam Verify Game Integrity feature to automatically revert all modifications.");
         sb.AppendLine("Use at your own risk.");
         sb.AppendLine("Continue?");

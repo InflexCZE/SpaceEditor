@@ -29,6 +29,22 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
+    public int Theme
+    {
+        get => this.Settings.Theme;
+        set
+        {
+            if (this.Settings.Theme == value)
+                return;
+
+            this.Settings.Theme = value;
+            OnPropertyChanged();
+            OnThemeChanged(value);
+        }
+    }
+
+    private List<ResourceDictionary> _themes = new();
+
     public MainWindow()
     {
         this.DataContext = this;
@@ -38,6 +54,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private async void Reload(object sender, RoutedEventArgs e)
     {
+        OnThemeChanged(this.Settings.Theme);
+
         var tabs = this.MainTabs.Items;
         while (tabs.Count > 1)
         {
@@ -119,5 +137,17 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private void OnThemeChanged(int themeIndex)
+    {
+        var resources = Application.Current.Resources.MergedDictionaries;
+        while (resources.Count > 1) //Remove all but the last, that is the global theme.
+        {
+            _themes.Add(resources[0]);
+            resources.RemoveAt(0);
+        }
+
+        resources.Insert(0, _themes[themeIndex]);
     }
 }
