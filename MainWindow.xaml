@@ -12,6 +12,9 @@
         Width="1000"
         d:DataContext="{local:MainWindow}"
         >
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
     <TabControl
         Name="MainTabs"
         >

@@ -25,6 +25,7 @@
     <PackageReference Include="ObservableCollections" Version="3.3.3" />
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
     <PackageReference Include="ReflectionMagic" Version="5.0.1" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
   </ItemGroup>
 
   <ItemGroup>

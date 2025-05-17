@@ -51,6 +51,7 @@ public partial class InputsEditor : UserControl
             };
 
             this.ActionList.ItemsSource = cv;
+            this.ActionList.DataContext = cv;
         }
     }
 

@@ -20,6 +20,14 @@ public class InputActions
         public string DisplayName { get; set; }
         public object DefinitionInstanceStub;
         public object DefinitionObjectBuilder;
+
+        /// <summary>
+        /// TODO: https://github.com/benruehl/adonis-ui/issues/213
+        /// </summary>
+        public override string ToString()
+        {
+            return this.DisplayName;
+        }
     }
     public readonly Dictionary<Guid, InputActionInfo> Actions = new();
 

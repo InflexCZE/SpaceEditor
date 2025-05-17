@@ -48,7 +48,7 @@
             Name="ActionButtons"
             >
             <StackPanel.Resources>
-                <Style TargetType="Button">
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Margin" Value="2, 0, 0, 0" />
                     <Setter Property="Padding" Value="2" />
                 </Style>

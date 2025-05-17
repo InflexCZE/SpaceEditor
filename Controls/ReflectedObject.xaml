@@ -7,12 +7,17 @@
              xmlns:pt="http://propertytools.org/wpf"
              xmlns:rocks="clr-namespace:SpaceEditor.Rocks"
              mc:Ignorable="d" 
+             Margin="0"
+             Padding="0"
              d:DesignHeight="450" d:DesignWidth="800" Name="Root">
     <UserControl.Resources>
         <local:FlatGroupingDataGridOperator x:Key="FlatGroupingDataGridOperator" />
         
         <DataTemplate x:Key="NotNullTemplate">
             <pt:PropertyGrid
+                
+                Margin="0"
+                Padding="0"
                 TabVisibility="Collapsed"
                 SelectedObject="{Binding Path=ReflectedInstance, ElementName=Root, Mode=TwoWay}"
                 Operator="{StaticResource FlatGroupingDataGridOperator}"

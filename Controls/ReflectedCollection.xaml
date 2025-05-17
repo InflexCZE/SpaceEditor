@@ -20,7 +20,7 @@
             VirtualizingPanel.ScrollUnit="Pixel"
             CanUserAddRows="False"
             HeadersVisibility="None"
-            Background="Transparent"
+            
         >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
