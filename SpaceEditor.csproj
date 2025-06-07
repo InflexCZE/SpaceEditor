@@ -7,22 +7,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>SpaceEditor.ico</ApplicationIcon>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\SpaceEditor.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\SpaceEditor.png">
+    <Content Include="SpaceEditor.ico" />
+    <Resource Include="Resources\**\*.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Content Include="SpaceEditor.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="5.2.1" />
+    <PackageReference Include="ClrDebug" Version="0.3.4" />
+    <PackageReference Include="Microsoft.Diagnostics.DbgShim" Version="9.0.621003" />
     <PackageReference Include="ObservableCollections" Version="3.3.3" />
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.4.2" />
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />
     <PackageReference Include="ReflectionMagic" Version="5.0.1" />
   </ItemGroup>

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 using SpaceEditor.Controls;
 using SpaceEditor.Data;
+using SpaceEditor.Data.GameLinks;
 
 namespace SpaceEditor;
 
@@ -17,6 +18,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     
     private Settings Settings => Settings.Default;
+    private GameLink? GameLink;
 
     public string GamePath
     {
@@ -84,6 +86,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 Header = "PCU Unlocker",
                 Content = new PCUUnlocker(game)
+            });
+
+            if (this.GameLink is not null)
+            {
+                await this.GameLink.DisposeAsync();
+            }
+
+            this.GameLink = new GameLink(game);
+
+            tabs.Add(new TabItem
+            {
+                Header = "Character",
+                Content = new CharacterEditor(game, this.GameLink)
             });
 
             var sb = new StringBuilder();
