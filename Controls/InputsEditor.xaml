@@ -63,7 +63,7 @@
             Stretch="Fill"
             Margin="2, 0, 0, 0"
             Source="pack://application:,,,/Resources/SpaceEditor.png"
-        />
+            />
 
         <local:ReflectedCollection
             Grid.Column="4"
