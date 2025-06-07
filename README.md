@@ -13,8 +13,11 @@ Space Editor is a standalone tool for tinkering with Space Engineers 2  ([SpaceE
 <br />
 
 ## Features
-Space Editor can currently edit **Key bindings** and **Unlock PCU limits** on SE2 game.
+Space Editor can currently edit **Key bindings** and **Unlock PCU limits**.
 ![Preview](Resources/Preview.png)
+
+Space Editor can also manage Character suit color.
+![Preview](Resources/CharacterEditorPreview.gif)
 
 
 ## Installation
