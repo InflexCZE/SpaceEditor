@@ -83,6 +83,14 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold">Jun 7 2025 - v0.9.3</Run>
+                            <LineBreak />
+                            <Run>- Added Character Editor</Run>
+                            <LineBreak />
+                            <Run>- Can change Character suit color</Run>
+                            <LineBreak />
+                            <LineBreak />
+
                             <Run FontSize="20" FontWeight="Bold">May 13 2025 - v0.9.2</Run>
                             <LineBreak />
                             <Run>- Added PCU Unlocker</Run>
