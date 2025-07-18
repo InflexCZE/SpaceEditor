@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using ClrDebug;
 using SpaceEditor.Rocks;
 
@@ -63,10 +62,20 @@ public partial class GameLink
         public CorDebugFunction FindFunction(string typeName, string methodName)
         {
             var type = FindType(typeName);
+            return FindFunction(type.Module, type.Token, methodName);
+        }
 
-            var md = type.Module.GetMetaDataInterface().MetaDataImport;
-            var updateMethodToken = md.FindMethod(type.Token, methodName, default, 0);
-            return type.Module.GetFunctionFromToken(updateMethodToken);
+        public CorDebugFunction FindFunction(CorDebugType type, string methodName)
+        {
+            var clas = type.Class;
+            return FindFunction(clas.Module, clas.Token, methodName);
+        }
+
+        public CorDebugFunction FindFunction(CorDebugModule module, mdTypeDef type, string methodName)
+        {
+            var md = module.GetMetaDataInterface().MetaDataImport;
+            var updateMethodToken = md.FindMethod(type, methodName, default, 0);
+            return module.GetFunctionFromToken(updateMethodToken);
         }
 
         public async Task<CorDebugThread> CatchThreadInFunction(CorDebugFunction method, CorDebugThread? thread = null)
@@ -75,12 +84,6 @@ public partial class GameLink
             {
                 throw new Exception("Should not run");
             }
-
-            var events = new List<object>();
-            this.Callbacks.OnAnyEvent += (_, args) =>
-            {
-                events.Add(args);
-            };
 
             var bp = method.CreateBreakpoint();
             try
@@ -119,34 +122,85 @@ public partial class GameLink
             return thread!;
         }
 
+        public async Task ExecutePreparedStep(CorDebugStepper stepper)
+        {
+            var step = this.Callbacks.WhenOnStepComplete(x =>
+            {
+                if (stepper.Equals(x.Stepper) == false)
+                    return false;
+
+                x.Continue = false;
+                return true;
+            });
+
+            this.Process.Continue(default);
+
+            try
+            {
+                await step.WaitAsync(TimeSpan.FromSeconds(10));
+            }
+            catch
+            {
+                this.Process.Stop(default);
+                throw;
+            }
+        }
+
+        public async Task<(CorDebugHandleValue, T)> ExecutePreparedEval<T>(CorDebugEval eval)
+            where T : CorDebugValue
+        {
+            var result = await ExecutePreparedEval(eval, expectResult: true);
+
+            var handle = result as CorDebugHandleValue;
+            
+            CorDebugValue value = result;
+            if (value is CorDebugReferenceValue ptr)
+            {
+                value = ptr.Dereference();
+            }
+
+            return (handle, value.As<T>());
+        }
+
         public async Task<CorDebugHandleValue> ExecutePreparedEval(CorDebugEval eval, bool expectResult = false)
         {
-            var success = this.Callbacks.WhenOnEvalComplete(e =>
+            var success = await Invoke();
+
+            if (success == false)
             {
-                if (e.Eval.Equals(eval) == false)
-                    return false;
+                string? errorInfo = null;
+                try
+                {
+                    var exception = eval.Result;
+                    var toString = FindFunction("System.Object", "ToString");
 
-                e.Continue = false;
-                return true;
-            });
+                    eval.CallFunction(toString.Raw, 1, [exception.Raw]);
+                    
+                    var extractedInfo = await Invoke();
+                    if (extractedInfo)
+                    {
+                        var info = eval.Result.As<CorDebugHandleValue>();
+                        try
+                        {
+                            errorInfo = ReadString(info);
+                        }
+                        finally
+                        {
+                            info.Dispose();
+                        }
+                    }
+                }
+                catch
+                { }
 
-            //TODO: This sub is leaking most of the time
-            var fail = this.Callbacks.WhenOnEvalException(e =>
-            {
-                if (e.Eval.Equals(eval) == false)
-                    return false;
-
-                e.Continue = false;
-                return true;
-            });
-
-            this.Process.Continue(false);
-
-            var result = await Task.WhenAny(success, fail);
-
-            if (result == fail)
-            {
-                throw new Exception("Eval failed");
+                if (errorInfo is null)
+                {
+                    throw new Exception("Eval failed. No result");
+                }
+                else
+                {
+                    throw new Exception($"Eval failed.{Environment.NewLine}{errorInfo}");
+                }
             }
 
             if (expectResult == false)
@@ -155,42 +209,124 @@ public partial class GameLink
             }
 
             return (CorDebugHandleValue) eval.Result;
+
+            async Task<bool> Invoke()
+            {
+                var success = this.Callbacks.WhenOnEvalComplete(e =>
+                {
+                    if (e.Eval.Equals(eval) == false)
+                        return false;
+
+                    e.Continue = false;
+                    return true;
+                });
+
+                //TODO: This sub is leaking most of the time
+                var fail = this.Callbacks.WhenOnEvalException(e =>
+                {
+                    if (e.Eval.Equals(eval) == false)
+                        return false;
+
+                    e.Continue = false;
+                    return true;
+                });
+
+                this.Process.Continue(false);
+
+                var result = await Task.WhenAny(success, fail);
+                return result == success;
+            }
+        }
+
+        public Task<CorDebugHandleValue> CreateStringValue(CorDebugEval eval, string value)
+        {
+            eval.NewString(value);
+            return ExecutePreparedEval(eval, expectResult: true);
+        }
+
+        public string ReadString(CorDebugValue value, string targetField)
+        {
+            return ReadString(ReadField(value, targetField));
+        }
+
+        public string ReadString(CorDebugValue value)
+        {
+            if (value is CorDebugReferenceValue ptr)
+            {
+                value = ptr.Dereference();
+            }
+
+            var str = value.As<CorDebugStringValue>();
+            return str.GetString(str.Length + 1);
+        }
+
+        public unsafe T ReadPrimitiveValue<T>(CorDebugValue value)
+            where T : unmanaged
+        {
+            var expectedType = PrimitiveRuntimeTypeToCorType(typeof(T));
+
+            var genericValue = value.As<CorDebugGenericValue>();
+            var actualType = genericValue.Type;
+
+            if (actualType != expectedType)
+            {
+                throw new Exception($"Type mismatch {actualType} {expectedType} {typeof(T)}");
+            }
+
+            T store = default;
+            genericValue.GetValue((IntPtr) (void*) &store);
+            return store;
         }
 
         public unsafe CorDebugValue CreatePrimitiveValue<T>(CorDebugEval eval, T value)
             where T : unmanaged
         {
-            CorElementType type;
-            if (typeof(T) == typeof(bool))
-                type = CorElementType.Boolean;
-            else if (typeof(T) == typeof(char))
-                type = CorElementType.Char;
-            else if (typeof(T) == typeof(sbyte))
-                type = CorElementType.I1;
-            else if (typeof(T) == typeof(byte))
-                type = CorElementType.U1;
-            else if (typeof(T) == typeof(short))
-                type = CorElementType.I2;
-            else if (typeof(T) == typeof(ushort))
-                type = CorElementType.U2;
-            else if (typeof(T) == typeof(int))
-                type = CorElementType.I4;
-            else if (typeof(T) == typeof(uint))
-                type = CorElementType.U4;
-            else if (typeof(T) == typeof(long))
-                type = CorElementType.I8;
-            else if (typeof(T) == typeof(ulong))
-                type = CorElementType.U8;
-            else if (typeof(T) == typeof(float))
-                type = CorElementType.R4;
-            else if (typeof(T) == typeof(double))
-                type = CorElementType.R8;
-            else
-                throw new Exception($"Unknown type {typeof(T)}");
-
+            var type = PrimitiveRuntimeTypeToCorType(typeof(T));
             var valueHandle = (CorDebugGenericValue) eval.CreateValue(type, null);
             valueHandle.SetValue((IntPtr) (void*) &value);
             return valueHandle;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public CorElementType PrimitiveRuntimeTypeToCorType(Type runtimeType)
+        {
+            if (runtimeType == typeof(bool))
+                return CorElementType.Boolean;
+
+            if (runtimeType == typeof(char))
+                return CorElementType.Char;
+
+            if (runtimeType == typeof(sbyte))
+                return CorElementType.I1;
+
+            if (runtimeType == typeof(byte))
+                return CorElementType.U1;
+
+            if (runtimeType == typeof(short))
+                return CorElementType.I2;
+
+            if (runtimeType == typeof(ushort))
+                return CorElementType.U2;
+
+            if (runtimeType == typeof(int))
+                return CorElementType.I4;
+
+            if (runtimeType == typeof(uint))
+                return CorElementType.U4;
+
+            if (runtimeType == typeof(long))
+                return CorElementType.I8;
+
+            if (runtimeType == typeof(ulong))
+                return CorElementType.U8;
+
+            if (runtimeType == typeof(float))
+                return CorElementType.R4;
+
+            if (runtimeType == typeof(double))
+                return CorElementType.R8;
+
+            throw new Exception($"Unknown type {runtimeType}");
         }
 
         public CorDebugValue ReadField(CorDebugValue value, string fieldName)
