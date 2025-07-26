@@ -83,6 +83,12 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold">Jul 26 2025 - v1.0.0</Run>
+                            <LineBreak />
+                            <Run>- Added Blueprint Generator</Run>
+                            <LineBreak />
+                            <LineBreak />
+
                             <Run FontSize="20" FontWeight="Bold">Jun 7 2025 - v0.9.3</Run>
                             <LineBreak />
                             <Run>- Added Character Editor</Run>

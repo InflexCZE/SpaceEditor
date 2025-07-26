@@ -13,11 +13,15 @@ Space Editor is a standalone tool for tinkering with Space Engineers 2  ([SpaceE
 <br />
 
 ## Features
-Space Editor can currently edit **Key bindings** and **Unlock PCU limits**.
-![Preview](Resources/Preview.png)
+Space Editor can create Blueprint from any model or 3D printable and **Unlock PCU limits** so that your creations fit.
+![Preview](Resources/BlueprintGenerator.png)
 
 Space Editor can also manage Character suit color.
 ![Preview](Resources/CharacterEditorPreview.gif)
+
+Space Editor can edit **Key bindings**.
+![Preview](Resources/Preview.png)
+
 
 
 ## Installation
