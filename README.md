@@ -13,7 +13,9 @@ Space Editor is a standalone tool for tinkering with Space Engineers 2  ([SpaceE
 <br />
 
 ## Features
-Space Editor can create Blueprint from any model or 3D printable and **Unlock PCU limits** so that your creations fit.
+Space Editor can create Blueprint from any model or 3D printable and **Unlock PCU limits** so that your creations fit. <br/>
+See [Blueprint Generator guide](https://github.com/InflexCZE/SpaceEditor/wiki/Blueprint-Generator) for more info.
+
 ![Preview](Resources/BlueprintGenerator.png)
 
 Space Editor can also manage Character suit color.
