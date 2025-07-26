@@ -5,10 +5,16 @@
              StartupUri="MainWindow.xaml"
              Exit="OnExit">
     <Application.Resources>
-         <Style TargetType="GridSplitter">
-            <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
-            <Setter Property="Background" Value="#FF7F7F7F"/>
-            <Setter Property="Width" Value="4"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Controls/ColourSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="GridSplitter">
+                <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+                <Setter Property="Background" Value="#FF7F7F7F"/>
+                <Setter Property="Width" Value="4"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

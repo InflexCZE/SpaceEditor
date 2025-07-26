@@ -69,6 +69,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 Factories =
                 {
+                    new ButtonPropertyGridControlFactory(),
                     new InputIdControlsFactory
                     {
                         InputIds = await game.InputIds
@@ -99,6 +100,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 Header = "Character",
                 Content = new CharacterEditor(game, this.GameLink)
+            });
+
+            tabs.Add(new TabItem
+            {
+                Header = "Blueprint Generator",
+                Content = new BlueprintGenerator()
             });
 
             var sb = new StringBuilder();

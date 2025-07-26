@@ -21,4 +21,12 @@ public class AsyncLazy<T> : Lazy<Task<T>>
     {
         return Value.GetAwaiter();
     }
+
+    /// <summary>
+    /// Start background computation if needed
+    /// </summary>
+    public void Poke()
+    {
+        _ = this.Value;
+    }
 }

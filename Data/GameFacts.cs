@@ -16,6 +16,16 @@ public static class GameFacts
         "VRage.Core",
     };
 
+    public static string GetDefaultAppDataPath()
+    {
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), MainDll);
+    }
+
+    public static string GetBlueprintImportsPath()
+    {
+        return Path.Combine(GetDefaultAppDataPath(), "AppData", "SE1GridsToImport");
+    }
+
     public static string GetBinsPath(string baseGamePath)
     {
         var exe = MainDll + ".exe";

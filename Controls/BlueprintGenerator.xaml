@@ -1,0 +1,189 @@
+﻿<UserControl x:Class="SpaceEditor.Controls.BlueprintGenerator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpaceEditor.Controls"
+             xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="400" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical">
+            <TextBlock
+                Margin="5, 5, 5, 15"
+                TextWrapping="Wrap"
+                >
+                <Run>Blueprint Generator allows you to quickly convert any 3D model to In-Game Blueprint.</Run>
+                <LineBreak />
+                <Run>Start by selecting model.</Run>
+                <LineBreak />
+            </TextBlock>
+
+            <Button 
+                Margin="5"
+                Click="SelectModel"
+                Content="Select Model"
+                />
+
+            <StackPanel
+                Orientation="Vertical"
+                Name="GenerateBlueprintPanel"
+                Visibility="Hidden"
+                Margin="5"
+                >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <local:ReflectedObject x:Name="GeneratorSettings" />
+                    <local:ReflectedObject x:Name="ModelSettings" Grid.Column="1" />
+                </Grid>
+
+                <Button
+                    Click="GenerateBlueprint"
+                    Content="The Preview looks good. Convert it to Blueprint!"
+                />
+            </StackPanel>
+
+            <StackPanel
+                Visibility="Collapsed"
+                Orientation="Vertical"
+                Name="ExportBlueprintPanel"
+                >
+                <TextBox
+                    Margin="5"
+                    Name="BlueprintName"
+                    />
+
+                <Button
+                    Margin="5"
+                    Click="ExportBlueprint"
+                    Content="The Blueprint looks good. Export it to Game Please!"
+                    />
+
+                <Button
+                    Margin="5"
+                    Click="ExportBlueprintAsModel"
+                    Content="I would like to examine the Blueprint closer. Please export it as model for me"
+                />
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock
+            Margin="5"
+            Grid.Row="0"
+            Grid.Column="0"
+            FontStyle="Italic"
+            TextWrapping="Wrap"
+            VerticalAlignment="Bottom"
+            >
+            <Run>Blueprint generator is experimental feature.</Run>
+            <LineBreak />
+            <Run>Further improvements will be done based on user feedback.</Run>
+        </TextBlock>
+
+        <Grid
+            Grid.Column="1"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Opacity="0.4"
+                Stretch="Fill"
+                Margin="2, 0, 0, 0"
+                Source="pack://application:,,,/Resources/SpaceEditor.png"
+                />
+
+            <local:ModelViewport
+                x:Name="ModelsViewport"
+                />
+
+            <Grid
+                Grid.Row="1"
+                Name="ViewportControls"
+                >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="0, 0, 10, 0"></Setter>
+                        </Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="0, 0, 10, 0"></Setter>
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                
+                <TextBlock FontWeight="Bold" Text="Model:" />
+                <TextBlock FontWeight="Bold" Text="Blueprint:" Grid.Row="1" />
+
+                <CheckBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Content="Draw"
+                    IsChecked="True"
+                    VerticalAlignment="Center"
+                    />
+                
+                <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Content="Draw"
+                    IsChecked="True"
+                    />
+
+                <CheckBox
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Content="XRay"
+                    Name="XRayModel"
+                    />
+
+                <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Content="XRay"
+                    Name="XRayBlueprint"
+                    />
+
+                <local:ColourSlider
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    SelectedColour="Gray"
+                    />
+
+                <local:ColourSlider
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    SelectedColour="Red"
+                    x:Name="BlueprintColor"
+                    />
+            </Grid>
+            
+            </Grid>
+    </Grid>
+</UserControl>
