@@ -88,13 +88,20 @@ public partial class ModelViewport : UserControl
 
         PropertyChangedEventHandler onPropertyChanged = (_, _) =>
         {
-            geometry.Material = new DiffuseMaterial
-            (
-                new SolidColorBrush
+            if (model.Opacity == 0)
+            {
+                geometry.Material = null;
+            }
+            else
+            {
+                geometry.Material = new DiffuseMaterial
                 (
-                    model.Color
-                )
-            );
+                    new SolidColorBrush
+                    (
+                        model.Color
+                    )
+                );
+            }
         };
         model.PropertyChanged += onPropertyChanged;
         onPropertyChanged(default, default);
