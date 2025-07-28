@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using PropertyTools.DataAnnotations;
 
 namespace SpaceEditor.Algorithms;
 
@@ -20,19 +21,46 @@ public class GridShaper
         this.Tree = tree;
     }
 
+    public static class BlockSizes
+    {
+        public const string TwoPointFive = "2.5m";
+        public const string HalfMeter = "0.5m (VERY VERY slow on large ships!)";
+        public const string TwentyFiveC = nameof(TwentyFiveC);
+    }
+
     public class GeneratorSettings
     {
         public bool SlopesUpper { get; set; } = true;
         public bool SlopesLower { get; set; } = true;
         public bool SlopesSides { get; set; } = true; 
-        public bool SlopesMustBeSupported { get; set; } = false; 
+        public bool SlopesMustBeSupported { get; set; } = false;
+
+        [ItemsSourceProperty(nameof(BlockSizeValues))]
+        public string BlockSize { get; set; } = BlockSizes.TwoPointFive;
+
+        [Browsable(false)]
+        public List<string> BlockSizeValues { get; } =
+        [
+            BlockSizes.TwoPointFive,
+            BlockSizes.HalfMeter,
+            //BlockSizes.TwentyFiveC,
+        ];
     }
 
     public BlueprintMesh Generate(GeneratorSettings settings, CancellationToken ct)
     {
-        var blockSize = 2.5;
+        var blockSize = settings.BlockSize switch
+        {
+            BlockSizes.TwoPointFive => ShapeDB.LargeBlockSize,
+            BlockSizes.HalfMeter => ShapeDB.MidBlockSize
+        };
+
+        var minimalBounds = this.Tree.Bounds;
+        minimalBounds.Min -= blockSize;
+        minimalBounds.Max += blockSize;
+        
         var boundingBox = new AxisAlignedBox3d(new Vector3d(0), blockSize / 2);
-        while (boundingBox.Contains(this.Tree.Bounds) == false)
+        while (boundingBox.Contains(minimalBounds) == false)
         {
             //TODO: Fix block offset
             boundingBox.Scale(2, 2, 2);
@@ -46,6 +74,11 @@ public class GridShaper
         var blueprint = new BlueprintMesh();
         blueprint.Blocks = bmp;
         blueprint.Coords = indexer;
+        blueprint.Shapes = settings.BlockSize switch
+        {
+            BlockSizes.TwoPointFive => ShapeDB.LargeShapes,
+            BlockSizes.HalfMeter => ShapeDB.MidShapes
+        };
         
         foreach (var triangle in this.Mesh.EnumerateTriangles())
         {
@@ -86,7 +119,7 @@ public class GridShaper
 
         void ExecSlopes(int content)
         {
-            var shapeInfo = ShapeDB.Instance.Shapes[content];
+            var shapeInfo = blueprint.Shapes[content];
             var probeDirectionA = -Base6Directions.Vectors[shapeInfo.Forward];
             var probeDirectionB = Base6Directions.Vectors[shapeInfo.Up];
             var supportDirectionA = -probeDirectionA;
@@ -149,7 +182,7 @@ public class GridMesher
             if (shapeId == BlueprintMesh.NoContent)
                 continue;
 
-            var shapeInfo = ShapeDB.Instance.Shapes[shapeId];
+            var shapeInfo = blueprint.Shapes[shapeId];
 
             slopeMesh.AppendMesh
             (
@@ -168,7 +201,7 @@ public class GridMesher
         cubesSurfaceGenerator.Generate();
         
         var cubesMesh = cubesSurfaceGenerator.Meshes[0];
-        MeshTransforms.Scale(cubesMesh, 2.5);
+        MeshTransforms.Scale(cubesMesh, blueprint.Coords.CellSize);
 
         // Voxel generator generates around UnitZeroCentered, while indexer rounds down to corner
         var correctionOffset = blueprint.Coords.CellSize / 2;
@@ -185,12 +218,8 @@ public class GridMesher
 public class ShapeDB
 {
     public const float LargeBlockSize = 2.5f;
+    public const float MidBlockSize = 0.5f;
     public const float SmallBlockSize = 0.25f;
-    public const float LargeBlockHalfExtent = LargeBlockSize / 2;
-
-    public static AxisAlignedBox3f CenterBlockAlignment => new(Vector3f.Zero, LargeBlockHalfExtent);
-
-    public static ShapeDB Instance = new();
 
     public record ShapeInfo
     {
@@ -201,38 +230,68 @@ public class ShapeDB
         public int Up = Base6Directions.Up;
     }
 
-    public ShapeInfo[] Shapes =
-    [
+    public ShapeInfo[] Shapes { get; }
+    public ShapeInfo this[int index] => this.Shapes[index];
+
+    public ShapeDB(params ShapeInfo[] shapes)
+    {
+        this.Shapes = shapes;
+    }
+
+    public static ShapeDB LargeShapes = new
+    (
         // Cube
-        CubicShape("2eacbbf2-d8fb-4a78-91dc-7b492517ef97", x => x.AppendBox(CenterBlockAlignment)),
+        CubicShape("2eacbbf2-d8fb-4a78-91dc-7b492517ef97", x => x.AppendBox(Dims(LargeBlockSize))),
 
         // Slopes
-        SlopeShape(Base6Directions.Left, Base6Directions.Up),
-        SlopeShape(Base6Directions.Right, Base6Directions.Up),
-        SlopeShape(Base6Directions.Forward, Base6Directions.Up),
-        SlopeShape(Base6Directions.Backward, Base6Directions.Up),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Left, Base6Directions.Up),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Right, Base6Directions.Up),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Forward, Base6Directions.Up),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Backward, Base6Directions.Up),
 
-        SlopeShape(Base6Directions.Left, Base6Directions.Down),
-        SlopeShape(Base6Directions.Right, Base6Directions.Down),
-        SlopeShape(Base6Directions.Forward, Base6Directions.Down),
-        SlopeShape(Base6Directions.Backward, Base6Directions.Down),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Left, Base6Directions.Down),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Right, Base6Directions.Down),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Forward, Base6Directions.Down),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Backward, Base6Directions.Down),
 
-        SlopeShape(Base6Directions.Forward, Base6Directions.Left),
-        SlopeShape(Base6Directions.Left, Base6Directions.Backward),
-        SlopeShape(Base6Directions.Backward, Base6Directions.Right),
-        SlopeShape(Base6Directions.Right, Base6Directions.Forward),
-    ];
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Forward, Base6Directions.Left),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Left, Base6Directions.Backward),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Backward, Base6Directions.Right),
+        SlopeShape("f9efcc6c-6c76-4762-bbf0-6013ec969539", LargeBlockSize, Base6Directions.Right, Base6Directions.Forward)
+    );
 
-    private static ShapeInfo SlopeShape(int forward, int up)
+    public static ShapeDB MidShapes = new
+    (
+        // Cube
+        CubicShape("bc570618-3289-44cf-8278-48f70f2e6e11", x => x.AppendBox(Dims(MidBlockSize))),
+
+        // Slopes
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Left, Base6Directions.Up),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Right, Base6Directions.Up),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Forward, Base6Directions.Up),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Backward, Base6Directions.Up),
+
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Left, Base6Directions.Down),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Right, Base6Directions.Down),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Forward, Base6Directions.Down),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Backward, Base6Directions.Down),
+
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Forward, Base6Directions.Left),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Left, Base6Directions.Backward),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Backward, Base6Directions.Right),
+        SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Right, Base6Directions.Forward)
+    );
+
+    private static ShapeInfo SlopeShape(string prefab, float size, int forward, int up)
     {
         var info = CubicShape
         (
-            "f9efcc6c-6c76-4762-bbf0-6013ec969539",
+            prefab,
             x =>
             {
                 x.AppendSlope
                 (
-                    CenterBlockAlignment,
+                    Dims(size),
                     Base6Directions.Vectors[forward],
                     -Base6Directions.Vectors[up]
                 );
@@ -253,6 +312,11 @@ public class ShapeDB
         };
     }
 
+    private static AxisAlignedBox3f Dims(float size)
+    {
+        return new(Vector3f.Zero, size / 2);
+    }
+
     private static DMesh3 MakeShape(Action<DMesh3> factory)
     {
         var mesh = new DMesh3();
@@ -267,6 +331,7 @@ public class BlueprintMesh
 
     public DenseGrid3i Blocks;
     public ShiftGridIndexer3 Coords;
+    public ShapeDB Shapes;
 
     public int this[Vector3i index]
     {
@@ -306,7 +371,7 @@ public class BlueprintWriter
                 throw new NotImplementedException("Shape lists will go here");
             }
 
-            var block = ShapeDB.Instance.Shapes[content];
+            var block = blueprint.Shapes[content];
             sb.Append(block.Prefab);
             sb.Append('|');
 
@@ -317,7 +382,10 @@ public class BlueprintWriter
             var gridPosition = ToInt(cube.Center / ShapeDB.SmallBlockSize);
             gridPosition += PositionOffset
             (
-                new(new Vector3i(-4, -4, -4), new Vector3i(5, 5, 5)),
+                //TODO:
+                blueprint.Shapes == ShapeDB.LargeShapes ?
+                    new AxisAlignedBox3i(new Vector3i(-4, -4, -4), new Vector3i(5, 5, 5)) : 
+                    new AxisAlignedBox3i(new Vector3i(0, 0, 0), new Vector3i(1, 1, 1)),
                 forwardAxis,
                 upAxis
             );
