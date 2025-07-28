@@ -25,6 +25,7 @@ public class GridShaper
         public bool SlopesUpper { get; set; } = true;
         public bool SlopesLower { get; set; } = true;
         public bool SlopesSides { get; set; } = true; 
+        public bool SlopesMustBeSupported { get; set; } = false; 
     }
 
     public BlueprintMesh Generate(GeneratorSettings settings, CancellationToken ct)
@@ -41,6 +42,10 @@ public class GridShaper
         var indexer = new ShiftGridIndexer3(boundingBox.Min, blockSize);
 
         var bmp = new DenseGrid3i(cellCount, cellCount, cellCount, BlueprintMesh.NoContent);
+        
+        var blueprint = new BlueprintMesh();
+        blueprint.Blocks = bmp;
+        blueprint.Coords = indexer;
         
         foreach (var triangle in this.Mesh.EnumerateTriangles())
         {
@@ -82,39 +87,43 @@ public class GridShaper
         void ExecSlopes(int content)
         {
             var shapeInfo = ShapeDB.Instance.Shapes[content];
-            var probeA = -Base6Directions.Vectors[shapeInfo.Forward];
-            var probeB = Base6Directions.Vectors[shapeInfo.Up];
+            var probeDirectionA = -Base6Directions.Vectors[shapeInfo.Forward];
+            var probeDirectionB = Base6Directions.Vectors[shapeInfo.Up];
+            var supportDirectionA = -probeDirectionA;
+            var supportDirectionB = -probeDirectionB;
 
             foreach (var g in bmp.Indices())
             {
-                if (bmp[g] != 0)
+                if (blueprint[g] != 0)
                     continue;
 
-                Vector3i b = default;
-                bool valid = Offset(probeA, out var a) &&
-                             Offset(probeB, out b);
-
-                if (valid == false)
+                if
+                (
+                    blueprint[g + probeDirectionA] != BlueprintMesh.NoContent ||
+                    blueprint[g + probeDirectionB] != BlueprintMesh.NoContent
+                )
+                {
                     continue;
+                }
 
-                if (bmp[a] != BlueprintMesh.NoContent || bmp[b] != BlueprintMesh.NoContent)
-                    continue;
+                if (settings.SlopesMustBeSupported)
+                {
+                    if
+                    (
+                        //TODO: Should use face check, something symmetric
+                        blueprint[g + supportDirectionA] != 0 ||
+                        blueprint[g + supportDirectionB] != 0
+                    )
+                    {
+                        continue;
+                    }
+                }
 
                 bmp[g] = content;
-
-                bool Offset(Vector3i offset, out Vector3i value)
-                {
-                    value = g + offset;
-                    return bmp.IsValidIndex(value);
-                }
             }
         }
 
-        return new()
-        {
-            Blocks = bmp,
-            Coords = indexer
-        };
+        return blueprint;
     }
 }
 
@@ -258,6 +267,17 @@ public class BlueprintMesh
 
     public DenseGrid3i Blocks;
     public ShiftGridIndexer3 Coords;
+
+    public int this[Vector3i index]
+    {
+        get
+        {
+            if (this.Blocks.IsValidIndex(index) == false)
+                return NoContent;
+
+            return this.Blocks[index];
+        }
+    }
 }
 
 public class BlueprintWriter
