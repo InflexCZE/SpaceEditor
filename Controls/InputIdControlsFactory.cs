@@ -14,7 +14,7 @@ public class InputIdControlsFactory : IControlFactory
     public FrameworkElement? TryCreateControl(PropertyItem property, PropertyControlFactoryOptions options)
     {
         var type = property.ActualPropertyType;
-        if (typeof(IEnumerable).IsAssignableFrom(type))
+        if (typeof(IEnumerable).IsAssignableFrom(type) && type != typeof(string))
         {
             var rc = new ReflectedCollection();
             rc.SetBinding(ReflectedCollection.ReflectedItemsProperty, property.CreateBinding(UpdateSourceTrigger.PropertyChanged));
