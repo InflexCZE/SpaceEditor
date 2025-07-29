@@ -263,7 +263,7 @@ public class ShapeDB
     public static ShapeDB MidShapes = new
     (
         // Cube
-        CubicShape("bc570618-3289-44cf-8278-48f70f2e6e11", x => x.AppendBox(Dims(MidBlockSize))),
+        CubicShape("632d7385-12b9-47a6-802a-a610d0cbd1e0", x => x.AppendBox(Dims(MidBlockSize))),
 
         // Slopes
         SlopeShape("69902790-3e2d-43d2-81e4-1c0b42bc7461", MidBlockSize, Base6Directions.Left, Base6Directions.Up),
