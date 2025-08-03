@@ -92,6 +92,7 @@
                             <Run FontSize="20" FontWeight="Bold">Jul 28 2025 - v1.0.1</Run>
                             <LineBreak />
                             <Run>- Added 0.5m Blocks to Blueprint Generator</Run>
+                            <LineBreak />
                             <Run>- Fixed sometimes buggy render of 3D Viewport</Run>
                             <LineBreak />
                             <LineBreak />
