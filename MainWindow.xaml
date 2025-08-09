@@ -118,6 +118,14 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold">Aug 10 2025 - v1.0.3</Run>
+                            <LineBreak />
+                            <Run>- Added Model scaling to Blueprint Generator</Run>
+                            <LineBreak />
+                            <Run>- Added auto-check for latest version</Run>
+                            <LineBreak />
+                            <LineBreak />
+
                             <Run FontSize="20" FontWeight="Bold">Jul 29 2025 - v1.0.2</Run>
                             <LineBreak />
                             <Run>- Fixed Game crash when importing 0.5m Blueprints</Run>
