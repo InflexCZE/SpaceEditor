@@ -34,12 +34,47 @@
                     <Button Margin="2, 0, 0, 0" Padding="4, 2, 4, 2" Click="OnLocateGame" Content="Locate Game" />
                 </StackPanel>
 
-                <TextBox
+                <Grid
                     Grid.Row="1"
                     Grid.Column="0"
-                    Name="InfoText"
-                    IsReadOnly="True"
-                    />
+                    >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <TextBox
+                        Name="InfoText"
+                        IsReadOnly="True"
+                        />
+
+                    <StackPanel
+                        Margin="5"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Name="UpdateHints"
+                        Visibility="Collapsed"
+                        Orientation="Horizontal"
+                    >
+
+                        <TextBlock
+                            FontSize="30"
+                            FontFamily="Segoe MDL2 Assets"
+                            Foreground="OrangeRed"
+                            Text="&#xE7BA;"
+                        />
+
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text=" "
+                        >
+                            New version available.
+                            <Hyperlink NavigateUri="https://github.com/InflexCZE/SpaceEditor/releases/latest" RequestNavigate="CheckOutUpdate">
+                                See what's new!
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
 
                 <Image
                     Grid.Row="1"

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel;
-using System.IO;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using Microsoft.Win32;
 using SpaceEditor.Controls;
 using SpaceEditor.Data;
 using SpaceEditor.Data.GameLinks;
+using SpaceEditor.Services;
 
 namespace SpaceEditor;
 
@@ -36,6 +38,20 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         this.DataContext = this;
         this.Loaded += Reload;
         InitializeComponent();
+
+        this.Dispatcher.InvokeAsync(async () =>
+        {
+            try
+            {
+                var latest = await VersionChecker.GetLatestVersionInfo();
+                if (latest.Published.Date != BuildInfo.BuildTimeUtc.Date)
+                {
+                    this.UpdateHints.Visibility = Visibility.Visible;
+                }
+            }
+            catch
+            { }
+        });
     }
 
     private async void Reload(object sender, RoutedEventArgs e)
@@ -141,6 +157,15 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             return;
 
         this.GamePath = dialog.FolderName;
+    }
+
+    private void CheckOutUpdate(object sender, RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
+        {
+            UseShellExecute = true
+        });
+        e.Handled = true;
     }
 
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

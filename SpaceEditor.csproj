@@ -44,6 +44,28 @@
     </None>
   </ItemGroup>
 
+	<Target Name="GenerateBuildInfo" BeforeTargets="BeforeCompile">
+		<PropertyGroup>
+			<BuildDateTime>$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))</BuildDateTime>
+			<BuildInfoFile>$(IntermediateOutputPath)BuildInfo.g.cs</BuildInfoFile>
+		</PropertyGroup>
+
+		<WriteLinesToFile
+			File="$(BuildInfoFile)"
+			Lines=
+			"
+			    internal static class BuildInfo
+			    {
+			        public static DateTime BuildTimeUtc => DateTime.Parse(&quot;$(BuildDateTime)&quot;) %3B
+			    }
+			"
+			Overwrite="true" />
+
+		<ItemGroup>
+			<Compile Include="$(BuildInfoFile)" />
+		</ItemGroup>
+	</Target>
+
 	<Target Name="ZipPublishOutput" AfterTargets="Publish">
 		<ItemGroup>
 			<ZipOutputPath Include="$(PublishDir)..\..\$(MSBuildProjectName).zip" />
