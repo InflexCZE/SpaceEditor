@@ -111,6 +111,29 @@
                 x:Name="ModelsViewport"
                 />
 
+            <StackPanel
+                IsHitTestVisible="False"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                >
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock x:Name="ModelDetails" />
+                <TextBlock x:Name="BlueprintDetails" />
+            </StackPanel>
+
             <Grid
                 Grid.Row="1"
                 Name="ViewportControls"

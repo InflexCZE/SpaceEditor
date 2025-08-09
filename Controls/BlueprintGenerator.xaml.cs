@@ -8,12 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace SpaceEditor.Controls;
 
-public class ModelSettings
+public record ModelSettings
 {
     public BlueprintGenerator Screen;
 
@@ -26,9 +27,47 @@ public class ModelSettings
     [ButtonProperty(nameof(SwapYZImpl))]
     public bool SwapYZ { get; set; }
 
+    [ButtonProperty(nameof(RecenterImp))]
+    public bool Recenter { get; set; }
+    
+    public float ModelSize { get; set; }
+
+    [ButtonProperty(nameof(ScareToTargetSize))]
+    public bool ApplyScale { get; set; }
+
     private void SwapXYImpl() => Swap(0, 1);
     private void SwapXZImpl() => Swap(0, 2);
     private void SwapYZImpl() => Swap(1, 2);
+
+    private void RecenterImp()
+    {
+        UpdateModelCopy(model =>
+        {
+            var bb = model.CachedBounds;
+            var offset = -bb.Center;
+
+            MeshTransforms.Translate(model, offset);
+        });
+    }
+
+    private void ScareToTargetSize()
+    {
+        UpdateModelCopy(model =>
+        {
+            var bb = model.CachedBounds;
+            var dimensions = bb.Extents * 2;
+            
+            var size = dimensions.MaxAbs;
+            var targetSize = Math.Max(this.ModelSize, 1);
+
+            MeshTransforms.Scale
+            (
+                model, 
+                new(targetSize / size),
+                bb.Center
+            );
+        });
+    }
 
     private void Swap(int first, int second)
     {
@@ -80,11 +119,23 @@ public partial class BlueprintGenerator : UserControl
         
     public CancellationTokenSource? GeneratorLifetime;
 
+    private ModelSettings ModelSettingsVM
+    {
+        get => (ModelSettings) this.ModelSettings.ReflectedInstance;
+        set
+        {
+            // Make sure to reload the new values
+            this.ModelSettings.ReflectedInstance = null!;
+            
+            this.ModelSettings.ReflectedInstance = value;
+        }
+    }
+
     public BlueprintGenerator()
     {
         InitializeComponent();
         this.GeneratorSettings.ReflectedInstance = new GridShaper.GeneratorSettings();
-        this.ModelSettings.ReflectedInstance = new ModelSettings
+        this.ModelSettingsVM = new ModelSettings
         {
             Screen = this
         };
@@ -101,6 +152,9 @@ public partial class BlueprintGenerator : UserControl
         {
             model = LoadModel(selectFile.FileName);
             this.BlueprintName.Text = Path.GetFileNameWithoutExtension(selectFile.FileName);
+
+            
+
         }
         catch
         {
@@ -127,6 +181,31 @@ public partial class BlueprintGenerator : UserControl
         });
 
         this.ModelBVH.Poke();
+
+        var bb = this.Model.CachedBounds;
+        this.ModelSettingsVM = this.ModelSettingsVM with { ModelSize = (float) bb.Extents.MaxAbs * 2 };
+
+        var modelInfo = new StringBuilder();
+        modelInfo.AppendLine($"Model: {this.BlueprintName.Text}");
+        modelInfo.AppendLine($"Size: {bb.Width:f2} x {bb.Height:f2} x {bb.Depth:f2}m");
+
+        var modelSize = Math.Max(bb.Min.MaxAbs, bb.Max.MaxAbs) * 2;
+        if (modelSize > 3000)
+        {
+            modelInfo.AppendLine("Mode is too larget to safely convert.");
+            modelInfo.AppendLine("Scale it down.");
+        }
+        else if (modelSize > 500)
+        {
+            modelInfo.AppendLine("Mode is quite large, performance issues may appear.");
+            modelInfo.AppendLine("Recommended to scale it down.");
+        }
+
+        this.ModelDetails.Text = modelInfo.ToString().Trim();
+        lifetime.Register(() =>
+        {
+            this.ModelDetails.Text = null;
+        });
 
         var modelRender = CreateRenderModel(this.Model, controlsRow: 0);
         lifetime.Register(() =>
@@ -168,6 +247,12 @@ public partial class BlueprintGenerator : UserControl
 
             this.ExportBlueprintPanel.Tag = blueprint;
             this.ExportBlueprintPanel.Visibility = Visibility.Visible;
+
+            this.BlueprintDetails.Text = $"Blocks: {blueprint.Blocks.Indices().Count(x => blueprint[x] != BlueprintMesh.NoContent)}";
+            lifetime.Register(() =>
+            {
+                this.BlueprintDetails.Text = null;
+            });
         }
         catch
         {
