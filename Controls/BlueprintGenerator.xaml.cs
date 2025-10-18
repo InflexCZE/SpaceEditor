@@ -250,9 +250,9 @@ public partial class BlueprintGenerator : UserControl
 
             IEnumerable<Vector3i> usedIndicies = blueprint.Blocks.Indices().Where(x => blueprint[x] != BlueprintMesh.NoContent);
 
-            Vector3i diemensions = GetBlueprintDiemensions(usedIndicies);
+            Vector3i dimensions = GetBlueprintDiemensions(usedIndicies);
 
-            string info = $"Blocks: X: {diemensions.x} Y: {diemensions.y} Z: {diemensions.z} Total: {usedIndicies.Count()}";
+            string info = $"Blocks: X: {dimensions.x} Y: {dimensions.y} Z: {dimensions.z} Total: {usedIndicies.Count()}";
 			this.BlueprintDetails.Text = info;
 
             lifetime.Register(() =>
@@ -268,29 +268,14 @@ public partial class BlueprintGenerator : UserControl
 
     public static Vector3i GetBlueprintDiemensions(IEnumerable<Vector3i> indicies)
     {
-		Vector2i x = new(int.MaxValue, int.MinValue);
-		Vector2i y = new(int.MaxValue, int.MinValue);
-		Vector2i z = new(int.MaxValue, int.MinValue);
+        AxisAlignedBox3i dimensions = AxisAlignedBox3i.Empty;
 
 		foreach (Vector3i v3i in indicies)
-		{
-			if (v3i.x < x.x)
-				x.x = v3i.x;
-			else if (v3i.x > x.y)
-				x.y = v3i.x;
+        {
+            dimensions.Contain(v3i);
+        }
 
-			if (v3i.y < y.x)
-				y.x = v3i.y;
-			else if (v3i.y > y.y)
-				y.y = v3i.y;
-
-			if (v3i.z < z.x)
-				z.x = v3i.z;
-			else if (v3i.z > z.y)
-				z.y = v3i.z;
-		}
-
-        return new Vector3i(x.y - x.x, y.y - y.x, z.y - z.x);
+        return dimensions.Diagonal + 1;
     }
         
     private void ExportBlueprint(object sender, RoutedEventArgs e)
