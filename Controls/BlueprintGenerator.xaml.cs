@@ -248,7 +248,13 @@ public partial class BlueprintGenerator : UserControl
             this.ExportBlueprintPanel.Tag = blueprint;
             this.ExportBlueprintPanel.Visibility = Visibility.Visible;
 
-            this.BlueprintDetails.Text = $"Blocks: {blueprint.Blocks.Indices().Count(x => blueprint[x] != BlueprintMesh.NoContent)}";
+            IEnumerable<Vector3i> usedIndicies = blueprint.Blocks.Indices().Where(x => blueprint[x] != BlueprintMesh.NoContent);
+
+            Vector3i dimensions = GetBlueprintDiemensions(usedIndicies);
+
+            string info = $"Blocks: X: {dimensions.x} Y: {dimensions.y} Z: {dimensions.z} Total: {usedIndicies.Count()}";
+			this.BlueprintDetails.Text = info;
+
             lifetime.Register(() =>
             {
                 this.BlueprintDetails.Text = null;
@@ -258,6 +264,18 @@ public partial class BlueprintGenerator : UserControl
         {
                 
         }
+    }
+
+    public static Vector3i GetBlueprintDiemensions(IEnumerable<Vector3i> indicies)
+    {
+        AxisAlignedBox3i dimensions = AxisAlignedBox3i.Empty;
+
+		foreach (Vector3i v3i in indicies)
+        {
+            dimensions.Contain(v3i);
+        }
+
+        return dimensions.Diagonal + 1;
     }
         
     private void ExportBlueprint(object sender, RoutedEventArgs e)
