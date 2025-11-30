@@ -118,6 +118,12 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold">Nov 30 2025 - v1.1.0</Run>
+                            <LineBreak />
+                            <Run>- Ready for VS2</Run>
+                            <LineBreak />
+                            <LineBreak />
+
                             <Run FontSize="20" FontWeight="Bold">Aug 10 2025 - v1.0.3</Run>
                             <LineBreak />
                             <Run>- Added Model scaling to Blueprint Generator</Run>
