@@ -38,7 +38,7 @@ internal sealed partial class Settings
         set => this.Presets = value.ToStringCollection();
     }
 
-    public void InvokeGameAction(Action action)
+    public bool InvokeGameAction(Action action)
     {
         var sb = new StringBuilder();
         sb.AppendLine("This action is about change Game Content which may result in incompatibilities, bugs or crashes.");
@@ -57,6 +57,9 @@ internal sealed partial class Settings
         if (response == MessageBoxResult.OK)
         {
             action();
+            return true;
         }
+
+        return false;
     }
 }
