@@ -22,6 +22,7 @@
     <PackageReference Include="Castle.Core" Version="5.2.1" />
     <PackageReference Include="ClrDebug" Version="0.3.4" />
     <PackageReference Include="geometry4Sharp" Version="1.0.0" />
+    <PackageReference Include="ILGPU" Version="1.5.3" />
     <PackageReference Include="Microsoft.Diagnostics.DbgShim" Version="9.0.621003" />
     <PackageReference Include="ObservableCollections" Version="3.3.3" />
     <PackageReference Include="PixiEditor.ColorPicker" Version="3.4.2" />
@@ -50,16 +51,7 @@
 			<BuildInfoFile>$(IntermediateOutputPath)BuildInfo.g.cs</BuildInfoFile>
 		</PropertyGroup>
 
-		<WriteLinesToFile
-			File="$(BuildInfoFile)"
-			Lines=
-			"
-			    internal static class BuildInfo
-			    {
-			        public static DateTime BuildTimeUtc => DateTime.Parse(&quot;$(BuildDateTime)&quot;) %3B
-			    }
-			"
-			Overwrite="true" />
+		<WriteLinesToFile File="$(BuildInfoFile)" Lines="&#xD;&#xA;			    internal static class BuildInfo&#xD;&#xA;			    {&#xD;&#xA;			        public static DateTime BuildTimeUtc =&gt; DateTime.Parse(&quot;$(BuildDateTime)&quot;) %3B&#xD;&#xA;			    }&#xD;&#xA;			" Overwrite="true" />
 
 		<ItemGroup>
 			<Compile Include="$(BuildInfoFile)" />
@@ -71,18 +63,11 @@
 			<ZipOutputPath Include="$(PublishDir)..\..\$(MSBuildProjectName).zip" />
 		</ItemGroup>
 
-		<ZipDirectory
-			SourceDirectory="$(PublishDir).."
-			DestinationFile="@(ZipOutputPath)" />
+		<ZipDirectory SourceDirectory="$(PublishDir).." DestinationFile="@(ZipOutputPath)" />
 
-		<RemoveDir
-            Directories="$(PublishDir)"
-            />
+		<RemoveDir Directories="$(PublishDir)" />
 
-		<Move
-			SourceFiles="@(ZipOutputPath)"
-			DestinationFolder="$(PublishDir)"
-            />
+		<Move SourceFiles="@(ZipOutputPath)" DestinationFolder="$(PublishDir)" />
 
 	</Target>
 

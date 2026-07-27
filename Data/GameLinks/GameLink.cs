@@ -1,8 +1,5 @@
 ﻿using ClrDebug;
-using SpaceEditor.Controls;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace SpaceEditor.Data.GameLinks;
@@ -10,7 +7,7 @@ namespace SpaceEditor.Data.GameLinks;
 public partial class GameLink : IAsyncDisposable
 {
     public GameProxy Game { get; }
-    
+
     private readonly SemaphoreSlim SyncLock = new(1, 1);
     private readonly DbgShim DbgShim;
 
@@ -54,7 +51,7 @@ public partial class GameLink : IAsyncDisposable
         {
             throw new Exception($"Could not find CLR");
         }
-        
+
         //Version String is a comma delimited value containing dbiVersion, pidDebuggee, hmodTargetCLR
         var versionStr = this.DbgShim.CreateVersionStringFromModule(processId, clrs[0].Path);
 
@@ -125,7 +122,7 @@ public partial class GameLink : IAsyncDisposable
             //       Session.Update is large enough to not get inlined, but it's not guaranteed which Scene it will hit on
             // var engineUpdateMethod = op.FindFunction("Keen.VRage.Core.VRageCore", "Update");
             // thread = await op.CatchThreadInFunction(engineUpdateMethod);
-            
+
             var sessionUpdateMethod = op.FindFunction("Keen.VRage.Core.Game.Systems.Session", "Update");
             thread = await op.CatchThreadInFunction(sessionUpdateMethod);
 
@@ -163,17 +160,17 @@ public partial class GameLink : IAsyncDisposable
             // HashSet<Entity>
             var entities = op.ReadField(session, "_activeEntities");
             var entityType = entities.ExactType.FirstTypeParameter;
-            
+
             var toArrayMethod = op.FindFunction("System.Linq.Enumerable", "ToArray");
-            
+
             var eval = thread.CreateEval();
             eval.CallParameterizedFunction(toArrayMethod.Raw, 1, [entityType.Raw], 1, [entities.Raw]);
             var entitiesAsArrayHandle = await op.ExecutePreparedEval(eval, expectResult: true);
             try
             {
-                var entitiesAsArray = (CorDebugArrayValue) entitiesAsArrayHandle.Dereference();
+                var entitiesAsArray = (CorDebugArrayValue)entitiesAsArrayHandle.Dereference();
                 var entitiesCount = entitiesAsArray.Count;
-                
+
                 List<CorDebugHandleValue> componentHandles = new();
                 try
                 {
@@ -181,7 +178,7 @@ public partial class GameLink : IAsyncDisposable
                     {
                         var entity = entitiesAsArray.GetElementAtPosition(i).As<CorDebugReferenceValue>().Dereference();
                         var entityComponentsImmutableArray = op.ReadField(entity, "Components");
-                        var entityComponents = (CorDebugArrayValue) op.ReadField(entityComponentsImmutableArray, "array").As<CorDebugReferenceValue>().Dereference();
+                        var entityComponents = (CorDebugArrayValue)op.ReadField(entityComponentsImmutableArray, "array").As<CorDebugReferenceValue>().Dereference();
 
                         CorDebugValue? componentHit = null;
                         var cc = entityComponents.Count;
@@ -237,11 +234,11 @@ public partial class GameLink : IAsyncDisposable
                 var eval = thread.CreateEval();
                 var colorValue = op.CreatePrimitiveValue(eval, color);
                 eval.CallFunction(fromARGBMethod.Raw, 1, [colorValue.Raw]);
-                
+
                 var colorHandle = await op.ExecutePreparedEval(eval, expectResult: true);
                 try
                 {
-                    foreach(var characterRef in characters)
+                    foreach (var characterRef in characters)
                     {
                         eval.CallFunction(suitColorSetter.Raw, 2, [characterRef.Raw, colorHandle.Raw]);
                         await op.ExecutePreparedEval(eval);

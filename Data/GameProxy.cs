@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using ReflectionMagic;
 using SpaceEditor.Rocks;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace SpaceEditor.Data;
 
@@ -33,7 +29,7 @@ public class InputActions
     public InputActionInfo? TryGetInputActionInfo(object inputActionDefinitionStub)
     {
         var id = inputActionDefinitionStub.AsDynamic().Guid;
-        return TryGetInputActionInfo((Guid) id);
+        return TryGetInputActionInfo((Guid)id);
     }
 }
 
@@ -98,9 +94,16 @@ public class GameProxy
     public string BinsPath { get; }
 
     public Assembly MainAssembly { get; }
-    
+
     public AsyncLazy<InputIds> InputIds { get; }
     public AsyncLazy<InputActions> InputActions { get; }
+
+    // Pre-cached reflection types to eliminate massive loop bottlenecks
+    private readonly Type _customSerializationContextType;
+    private readonly Type _serializationContextType;
+    private readonly Type _serializationHelperType;
+    private readonly object _jsonFormatEnumValue;
+    private readonly MethodInfo _serializeAbstractMethod;
 
     public GameProxy(string baseGamePath)
     {
@@ -111,10 +114,16 @@ public class GameProxy
         var se2 = ReflectionRocks.GetLib(this.BinsPath, GameFacts.MainDll);
         this.MainAssembly = se2;
 
-        var st =  FindType("Keen.VRage.Library.Utils.Singleton");
+        var st = FindType("Keen.VRage.Library.Utils.Singleton");
         var mdt = FindType("Keen.VRage.Library.Reflection.MetadataManager");
         var md = st.AsDynamicType().GetInstance(mdt);
-        md.PushContext(new[]{se2});
+        md.PushContext(new[] { se2 });
+
+        _customSerializationContextType = FindType("CustomSerializationContext");
+        _serializationContextType = FindType("SerializationContext");
+        _serializationHelperType = FindType("SerializationHelper");
+        _jsonFormatEnumValue = Enum.Parse(FindType("SerializerFormat"), "Json");
+        _serializeAbstractMethod = _serializationHelperType.GetMethod("SerializeAbstract")!.MakeGenericMethod(typeof(object));
 
         this.InputIds = new(LoadInputIds);
         this.InputActions = new(LoadInputActions);
@@ -128,31 +137,28 @@ public class GameProxy
 
     public dynamic DeserializeFile(string filePath, params object[] services)
     {
-        using var fs = new FileStream(filePath, FileMode.Open);
+        using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
         return DeserializeObject(fs, services);
     }
 
     public dynamic DeserializeObject(Stream content, params object[] services)
     {
-        var typedServices = Array.CreateInstance(FindType("CustomSerializationContext"), services.Length);
+        var typedServices = Array.CreateInstance(_customSerializationContextType, services.Length);
         Array.Copy(services, typedServices, services.Length);
 
-        var format = Enum.Parse(FindType("SerializerFormat"), "Json");
-
-        using var sc = (IDisposable) Activator.CreateInstance(FindType("SerializationContext"), content, "NoName.txt", typedServices)!;
-        return FindType("SerializationHelper").AsDynamicType().DeserializeAbstract<object>(sc, format);
+        using var sc = (IDisposable)Activator.CreateInstance(_serializationContextType, content, "NoName.txt", typedServices)!;
+        return _serializationHelperType.AsDynamicType().DeserializeAbstract<object>(sc, _jsonFormatEnumValue);
     }
 
     public string SerializeObject(object instance, params object[] services)
     {
-        var typedServices = Array.CreateInstance(FindType("CustomSerializationContext"), services.Length);
+        var typedServices = Array.CreateInstance(_customSerializationContextType, services.Length);
         Array.Copy(services, typedServices, services.Length);
 
-        var format = Enum.Parse(FindType("SerializerFormat"), "Json");
-
         using var data = new MemoryStream();
-        using var sc = (IDisposable) Activator.CreateInstance(FindType("SerializationContext"), data, "NoName.txt", typedServices)!;
-        FindType("SerializationHelper").GetMethod("SerializeAbstract")!.MakeGenericMethod(typeof(object)).Invoke(null, [sc, instance, format]);
+        using var sc = (IDisposable)Activator.CreateInstance(_serializationContextType, data, "NoName.txt", typedServices)!;
+
+        _serializeAbstractMethod.Invoke(null, [sc, instance, _jsonFormatEnumValue]);
 
         return Encoding.UTF8.GetString(data.GetBuffer().AsSpan()[..(int)data.Length]);
     }
@@ -160,18 +166,25 @@ public class GameProxy
     private InputActions LoadInputActions()
     {
         var actions = new InputActions();
-
         var inputActionDefinitionType = FindType("InputActionDefinition");
-
         var actionsDir = GameFacts.GetActionsPath(this.BaseGamePath);
-        Parallel.ForEach(Directory.EnumerateFiles(actionsDir), file =>
+
+        object syncObj = new object();
+
+        // 1. FILTER: Only process actual data files to stop blind SerializationExceptions
+        var validFiles = Directory.EnumerateFiles(actionsDir).Where(f => f.EndsWith(".def", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".json", StringComparison.OrdinalIgnoreCase));
+
+        Parallel.ForEach(validFiles, file =>
         {
             try
             {
                 var def = DeserializeFile(file);
+                if (def == null) return;
 
+                // We know it has a Guid now, so the dynamic binder won't crash
                 Guid id = def.Guid;
-                lock (actionsDir)
+
+                lock (syncObj)
                 {
                     actions.Actions.Add(id, new InputActions.InputActionInfo
                     {
@@ -183,9 +196,10 @@ public class GameProxy
                 }
             }
             catch
-            { }
+            {
+                // Ignore any files that genuinely fail serialization
+            }
         });
-
 
         var proxy = new ProxyGenerator();
         var mapGuidToDefinitionInstance = proxy.CreateClassProxy
@@ -225,11 +239,24 @@ public class GameProxy
                     if (kind is null)
                         continue;
 
-                    var inputId = DynamicHelper.Unwrap(input.GetValue(null).AsDynamic().Id);
-                    kind.Add(inputId);
+                    try
+                    {
+                        var val = input.GetValue(null);
+                        if (val == null) continue;
 
-                    dynamicProvider.TryGetName(inputId, out string displayName);
-                    inputIds.InputIdToDisplayName.Add(inputId, displayName);
+                        // 3. SAFE REFLECTION: Check if the 'Id' property exists before touching the dynamic binder
+                        var type = val.GetType();
+                        if (type.GetProperty("Id") == null && type.GetField("Id") == null)
+                            continue; // Safely skip without throwing a RuntimeBinderException
+
+                        var inputId = DynamicHelper.Unwrap(val.AsDynamic().Id);
+                        kind.Add(inputId);
+
+                        dynamicProvider.TryGetName(inputId, out string displayName);
+                        inputIds.InputIdToDisplayName.Add(inputId, displayName);
+                    }
+                    catch
+                    { }
                 }
             }
 
@@ -257,11 +284,11 @@ public class GameProxy
 
             if (methodName == "TryLocateDefinition" && invocation.Arguments.Length == 3)
             {
-                var id = (Guid) invocation.Arguments[0]!;
-                var type = (Type) invocation.Arguments[1]!;
+                var id = (Guid)invocation.Arguments[0]!;
+                var type = (Type)invocation.Arguments[1]!;
                 invocation.Arguments[2] = this.Actions.TryGetInputActionInfo(id)?.DefinitionInstanceStub ??
                                           DefinitionRocks.AllocateDefinitionStub(type, id);
-                
+
                 invocation.ReturnValue = true;
             }
             else

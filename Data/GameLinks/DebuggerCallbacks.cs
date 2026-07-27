@@ -72,229 +72,229 @@ public static class DebuggerCallbacks
             if (typeof(T) == typeof(BreakpointCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<BreakpointCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnBreakpoint -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnBreakpoint -= handler; };
                 instance.OnBreakpoint += handler;
             }
             else if (typeof(T) == typeof(StepCompleteCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<StepCompleteCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnStepComplete -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnStepComplete -= handler; };
                 instance.OnStepComplete += handler;
             }
             else if (typeof(T) == typeof(BreakCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<BreakCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnBreak -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnBreak -= handler; };
                 instance.OnBreak += handler;
             }
             else if (typeof(T) == typeof(ExceptionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ExceptionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnException -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnException -= handler; };
                 instance.OnException += handler;
             }
             else if (typeof(T) == typeof(EvalCompleteCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<EvalCompleteCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnEvalComplete -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnEvalComplete -= handler; };
                 instance.OnEvalComplete += handler;
             }
             else if (typeof(T) == typeof(EvalExceptionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<EvalExceptionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnEvalException -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnEvalException -= handler; };
                 instance.OnEvalException += handler;
             }
             else if (typeof(T) == typeof(CreateProcessCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<CreateProcessCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnCreateProcess -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnCreateProcess -= handler; };
                 instance.OnCreateProcess += handler;
             }
             else if (typeof(T) == typeof(ExitProcessCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ExitProcessCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnExitProcess -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnExitProcess -= handler; };
                 instance.OnExitProcess += handler;
             }
             else if (typeof(T) == typeof(CreateThreadCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<CreateThreadCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnCreateThread -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnCreateThread -= handler; };
                 instance.OnCreateThread += handler;
             }
             else if (typeof(T) == typeof(ExitThreadCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ExitThreadCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnExitThread -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnExitThread -= handler; };
                 instance.OnExitThread += handler;
             }
             else if (typeof(T) == typeof(LoadModuleCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<LoadModuleCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnLoadModule -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnLoadModule -= handler; };
                 instance.OnLoadModule += handler;
             }
             else if (typeof(T) == typeof(UnloadModuleCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<UnloadModuleCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnUnloadModule -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnUnloadModule -= handler; };
                 instance.OnUnloadModule += handler;
             }
             else if (typeof(T) == typeof(LoadClassCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<LoadClassCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnLoadClass -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnLoadClass -= handler; };
                 instance.OnLoadClass += handler;
             }
             else if (typeof(T) == typeof(UnloadClassCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<UnloadClassCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnUnloadClass -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnUnloadClass -= handler; };
                 instance.OnUnloadClass += handler;
             }
             else if (typeof(T) == typeof(DebuggerErrorCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<DebuggerErrorCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnDebuggerError -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnDebuggerError -= handler; };
                 instance.OnDebuggerError += handler;
             }
             else if (typeof(T) == typeof(LogMessageCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<LogMessageCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnLogMessage -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnLogMessage -= handler; };
                 instance.OnLogMessage += handler;
             }
             else if (typeof(T) == typeof(LogSwitchCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<LogSwitchCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnLogSwitch -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnLogSwitch -= handler; };
                 instance.OnLogSwitch += handler;
             }
             else if (typeof(T) == typeof(CreateAppDomainCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<CreateAppDomainCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnCreateAppDomain -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnCreateAppDomain -= handler; };
                 instance.OnCreateAppDomain += handler;
             }
             else if (typeof(T) == typeof(ExitAppDomainCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ExitAppDomainCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnExitAppDomain -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnExitAppDomain -= handler; };
                 instance.OnExitAppDomain += handler;
             }
             else if (typeof(T) == typeof(LoadAssemblyCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<LoadAssemblyCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnLoadAssembly -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnLoadAssembly -= handler; };
                 instance.OnLoadAssembly += handler;
             }
             else if (typeof(T) == typeof(UnloadAssemblyCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<UnloadAssemblyCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnUnloadAssembly -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnUnloadAssembly -= handler; };
                 instance.OnUnloadAssembly += handler;
             }
             else if (typeof(T) == typeof(ControlCTrapCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ControlCTrapCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnControlCTrap -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnControlCTrap -= handler; };
                 instance.OnControlCTrap += handler;
             }
             else if (typeof(T) == typeof(NameChangeCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<NameChangeCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnNameChange -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnNameChange -= handler; };
                 instance.OnNameChange += handler;
             }
             else if (typeof(T) == typeof(UpdateModuleSymbolsCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<UpdateModuleSymbolsCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnUpdateModuleSymbols -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnUpdateModuleSymbols -= handler; };
                 instance.OnUpdateModuleSymbols += handler;
             }
             else if (typeof(T) == typeof(EditAndContinueRemapCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<EditAndContinueRemapCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnEditAndContinueRemap -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnEditAndContinueRemap -= handler; };
                 instance.OnEditAndContinueRemap += handler;
             }
             else if (typeof(T) == typeof(BreakpointSetErrorCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<BreakpointSetErrorCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnBreakpointSetError -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnBreakpointSetError -= handler; };
                 instance.OnBreakpointSetError += handler;
             }
             else if (typeof(T) == typeof(FunctionRemapOpportunityCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<FunctionRemapOpportunityCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnFunctionRemapOpportunity -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnFunctionRemapOpportunity -= handler; };
                 instance.OnFunctionRemapOpportunity += handler;
             }
             else if (typeof(T) == typeof(CreateConnectionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<CreateConnectionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnCreateConnection -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnCreateConnection -= handler; };
                 instance.OnCreateConnection += handler;
             }
             else if (typeof(T) == typeof(ChangeConnectionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ChangeConnectionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnChangeConnection -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnChangeConnection -= handler; };
                 instance.OnChangeConnection += handler;
             }
             else if (typeof(T) == typeof(DestroyConnectionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<DestroyConnectionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnDestroyConnection -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnDestroyConnection -= handler; };
                 instance.OnDestroyConnection += handler;
             }
             else if (typeof(T) == typeof(Exception2CorDebugManagedCallbackEventArgs))
             {
                 EventHandler<Exception2CorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnException2 -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnException2 -= handler; };
                 instance.OnException2 += handler;
             }
             else if (typeof(T) == typeof(ExceptionUnwindCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<ExceptionUnwindCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnExceptionUnwind -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnExceptionUnwind -= handler; };
                 instance.OnExceptionUnwind += handler;
             }
             else if (typeof(T) == typeof(FunctionRemapCompleteCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<FunctionRemapCompleteCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnFunctionRemapComplete -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnFunctionRemapComplete -= handler; };
                 instance.OnFunctionRemapComplete += handler;
             }
             else if (typeof(T) == typeof(MDANotificationCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<MDANotificationCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnMDANotification -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnMDANotification -= handler; };
                 instance.OnMDANotification += handler;
             }
             else if (typeof(T) == typeof(CustomNotificationCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<CustomNotificationCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnCustomNotification -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnCustomNotification -= handler; };
                 instance.OnCustomNotification += handler;
             }
             else if (typeof(T) == typeof(BeforeGarbageCollectionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<BeforeGarbageCollectionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnBeforeGarbageCollection -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnBeforeGarbageCollection -= handler; };
                 instance.OnBeforeGarbageCollection += handler;
             }
             else if (typeof(T) == typeof(AfterGarbageCollectionCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<AfterGarbageCollectionCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnAfterGarbageCollection -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnAfterGarbageCollection -= handler; };
                 instance.OnAfterGarbageCollection += handler;
             }
             else if (typeof(T) == typeof(DataBreakpointCorDebugManagedCallbackEventArgs))
             {
                 EventHandler<DataBreakpointCorDebugManagedCallbackEventArgs> handler = null!;
-                handler = (_, e) => { if (Impl((T) (object) e)) instance.OnDataBreakpoint -= handler; };
+                handler = (_, e) => { if (Impl((T)(object)e)) instance.OnDataBreakpoint -= handler; };
                 instance.OnDataBreakpoint += handler;
             }
 

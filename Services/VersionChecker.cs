@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 
 namespace SpaceEditor.Services;
@@ -21,7 +18,7 @@ public class VersionChecker
         var queryURL = $"https://api.github.com/repos/InflexCZE/SpaceEditor/releases/latest";
 
         var latestReleaseJSON = await DownloadStringAsync(queryURL).ConfigureAwait(false);
-        
+
         var data = JsonDocument.Parse(latestReleaseJSON).RootElement;
         var assets = data.GetProperty("assets").EnumerateArray();
         return new()

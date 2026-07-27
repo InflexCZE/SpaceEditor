@@ -15,7 +15,7 @@ public class ButtonPropertyGridControlFactory : IControlFactory
 {
     public FrameworkElement? TryCreateControl(PropertyItem property, PropertyControlFactoryOptions options)
     {
-        if (property.Descriptor.GetFirstAttributeOrDefault<ButtonPropertyAttribute>() is not {} target)
+        if (property.Descriptor.GetFirstAttributeOrDefault<ButtonPropertyAttribute>() is not { } target)
             return null;
 
         var button = new Button();

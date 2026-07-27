@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -58,7 +55,7 @@ public class ColourSlider : Slider
 
     public Color SelectedColour
     {
-        get { return (Color) this.GetValue(SelectedColoursProperty); }
+        get { return (Color)this.GetValue(SelectedColoursProperty); }
         set { this.SetValue(SelectedColoursProperty, value); }
     }
 
@@ -76,7 +73,7 @@ public class ColourSlider : Slider
         {
             if (this.CacheBitmap() == false)
                 return;
-            
+
             this.SetColour(this.SelectedColour);
             this.isFirstTime = false;
         }
@@ -91,11 +88,11 @@ public class ColourSlider : Slider
             {
                 this.isValueUpdating = true;
 
-                if (this.colourGradient is {} bitmap)
+                if (this.colourGradient is { } bitmap)
                 {
                     // work out the track position based on the control's width
                     double width = this.colourGradient.Width;
-                    int position = (int) (((newValue - base.Minimum) / (base.Maximum - base.Minimum)) * width);
+                    int position = (int)(((newValue - base.Minimum) / (base.Maximum - base.Minimum)) * width);
 
                     this.SelectedColour = GetColour(bitmap, position);
                     RaiseEvent(new(ColorChangedEvent, this));
@@ -160,10 +157,10 @@ public class ColourSlider : Slider
     {
         if (position >= bitmap.Width - 1)
         {
-            position = (int) bitmap.Width - 2;
+            position = (int)bitmap.Width - 2;
         }
 
-        CroppedBitmap cb = new CroppedBitmap(bitmap, new Int32Rect(position, (int) this.VisualBounds.Height / 2, 1, 1));
+        CroppedBitmap cb = new CroppedBitmap(bitmap, new Int32Rect(position, (int)this.VisualBounds.Height / 2, 1, 1));
         byte[] tricolour = new byte[4];
 
         cb.CopyPixels(tricolour, 4, 0);
@@ -178,7 +175,7 @@ public class ColourSlider : Slider
         if (double.IsInfinity(bounds.Width) || double.IsInfinity(bounds.Height))
             return false;
 
-        RenderTargetBitmap source = new RenderTargetBitmap((int) bounds.Width, (int) bounds.Height, 96, 96, PixelFormats.Pbgra32);
+        RenderTargetBitmap source = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
 
         DrawingVisual dv = new DrawingVisual();
 
@@ -195,8 +192,8 @@ public class ColourSlider : Slider
 
     private static void SelectedColourChangedCallBack(DependencyObject property, DependencyPropertyChangedEventArgs args)
     {
-        ColourSlider colourSlider = (ColourSlider) property;
-        Color colour = (Color) args.NewValue;
+        ColourSlider colourSlider = (ColourSlider)property;
+        Color colour = (Color)args.NewValue;
 
         colourSlider.SetColour(colour);
     }
@@ -215,7 +212,7 @@ public class ColourSlider : Slider
 
     public static System.Drawing.Color ToDrawingColour(Color source)
     {
-        return System.Drawing.Color.FromArgb((int) source.R, (int) source.G, (int) source.B);
+        return System.Drawing.Color.FromArgb((int)source.R, (int)source.G, (int)source.B);
     }
 
     #endregion

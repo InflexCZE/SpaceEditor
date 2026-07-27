@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using ColorPicker.Models;
+using SpaceEditor.Data;
+using SpaceEditor.Data.GameLinks;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ColorPicker.Models;
-using SpaceEditor.Data;
-using SpaceEditor.Data.GameLinks;
 
 namespace SpaceEditor.Controls;
 
@@ -26,7 +22,7 @@ public partial class CharacterEditor : UserControl
 
     // Non-null value signifies initialization is done
     public volatile NotifyableColor? Color;
-    
+
     private readonly GameLink GameLink;
 
     private bool IsConnectedToGameImpl;
@@ -53,7 +49,7 @@ public partial class CharacterEditor : UserControl
     public CharacterEditor(GameProxy game, GameLink gameLink)
     {
         this.GameLink = gameLink;
-        
+
         InitializeComponent();
         this.IsConnectedToGame = false;
 
@@ -65,8 +61,8 @@ public partial class CharacterEditor : UserControl
 
         this.SecondaryColor.SecondaryColor = System.Windows.Media.Color.FromRgb
         (
-            0xff, 
-            0x2a, 
+            0xff,
+            0x2a,
             0x1f
         );
 
@@ -74,7 +70,7 @@ public partial class CharacterEditor : UserControl
         {
             this.Albedo = Read("Resources/CharacterEditor/Albedo.png");
             this.Mask = Read("Resources/CharacterEditor/Mask.png");
-            this.OutputMemoryPool = (Argb32[,]) this.Albedo.Clone();
+            this.OutputMemoryPool = (Argb32[,])this.Albedo.Clone();
 
             var dpi = VisualTreeHelper.GetDpi(this);
             var previewBitmap = this.Dispatcher.Invoke(() =>
@@ -88,7 +84,7 @@ public partial class CharacterEditor : UserControl
                     PixelFormats.Bgra32,
                     null
                 );
-                
+
                 Write(previewBitmap, this.Albedo);
                 return previewBitmap;
             });
@@ -122,7 +118,7 @@ public partial class CharacterEditor : UserControl
 
         async Task Impl()
         {
-            Run:
+        Run:
             this.NeedsUpdate = false;
 
             var suitColor = new Argb32
@@ -142,22 +138,22 @@ public partial class CharacterEditor : UserControl
                 var w = albedo.GetLength(1);
                 var h = albedo.GetLength(0);
                 for (int x = 0; x < w; x++)
-                for (int y = 0; y < h; y++)
-                {
-                    var c1 = albedo[y, x];
-                    var c2 = mask[y, x];
-
-                    if (c2 with {A = default } != default)
+                    for (int y = 0; y < h; y++)
                     {
-                        c1 = MultiplyColors(c1, MultiplyColors(c2, suitColor));
-                    }
+                        var c1 = albedo[y, x];
+                        var c2 = mask[y, x];
 
-                    output[y, x] = c1;
-                }
+                        if (c2 with { A = default } != default)
+                        {
+                            c1 = MultiplyColors(c1, MultiplyColors(c2, suitColor));
+                        }
+
+                        output[y, x] = c1;
+                    }
 
                 return output;
             });
-            
+
             await SendToGameIfNeeded();
 
             Write(this.PreviewBitmap, await bitmapCompute);
@@ -173,10 +169,10 @@ public partial class CharacterEditor : UserControl
     {
         return new()
         {
-            B = (byte) (Math.Round((c1.R / 255.0) * (c2.R / 255.0) * 255.0)),
-            G = (byte) (Math.Round((c1.G / 255.0) * (c2.G / 255.0) * 255.0)),
-            R = (byte) (Math.Round((c1.B / 255.0) * (c2.B / 255.0) * 255.0)),
-            A = (byte) (Math.Round((c1.A / 255.0) * (c2.A / 255.0) * 255.0)),
+            B = (byte)(Math.Round((c1.R / 255.0) * (c2.R / 255.0) * 255.0)),
+            G = (byte)(Math.Round((c1.G / 255.0) * (c2.G / 255.0) * 255.0)),
+            R = (byte)(Math.Round((c1.B / 255.0) * (c2.B / 255.0) * 255.0)),
+            A = (byte)(Math.Round((c1.A / 255.0) * (c2.A / 255.0) * 255.0)),
         };
     }
 
@@ -272,10 +268,10 @@ public partial class CharacterEditor : UserControl
         this.LastConnectionTask = connectionTask;
 
         PrintStatus(success: "Testing connection ...");
-        
-        var button = (Button) sender;
+
+        var button = (Button)sender;
         button.IsEnabled = false;
-        
+
         Exception? connectionError = null;
         try
         {
@@ -294,7 +290,7 @@ public partial class CharacterEditor : UserControl
             // Throw if anything is stored inside
             await connectionTask;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             connectionError = e;
         }
@@ -317,19 +313,19 @@ public partial class CharacterEditor : UserControl
         this.LastConnectionTask = Task.CompletedTask;
         this.IsConnectedToGame = false;
     }
-    
+
     private async Task SendToGameIfNeeded()
     {
         if (this.Color is null)
             return;
-        
+
         if (this.IsConnectedToGame == false)
             return;
 
-        uint colorInt = ((uint) byte.MaxValue << 24) |
-                        ((uint) (byte) (this.Color.RGB_R) << 16) |
-                        ((uint) (byte) (this.Color.RGB_G) << 8) |
-                        ((uint) (byte) (this.Color.RGB_B) << 0);
+        uint colorInt = ((uint)byte.MaxValue << 24) |
+                        ((uint)(byte)(this.Color.RGB_R) << 16) |
+                        ((uint)(byte)(this.Color.RGB_G) << 8) |
+                        ((uint)(byte)(this.Color.RGB_B) << 0);
 
         var error = await Task.Run(async () =>
         {
@@ -337,7 +333,7 @@ public partial class CharacterEditor : UserControl
             {
                 await this.GameLink.PaintCharacters(colorInt);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return e;
             }
@@ -351,12 +347,12 @@ public partial class CharacterEditor : UserControl
     private void PrintStatus(Exception? error = null, string? success = null)
     {
         var message = success;
-        
+
         if (error is not null)
         {
-            message = error.Message + 
-                      Environment.NewLine + 
-                      Environment.NewLine + 
+            message = error.Message +
+                      Environment.NewLine +
+                      Environment.NewLine +
                       error.ToString();
         }
 

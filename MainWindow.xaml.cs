@@ -1,5 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.Win32;
+using SpaceEditor.Controls;
+using SpaceEditor.Data;
+using SpaceEditor.Data.GameLinks;
+using SpaceEditor.Services;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -7,20 +10,18 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Microsoft.Win32;
-using SpaceEditor.Controls;
-using SpaceEditor.Data;
-using SpaceEditor.Data.GameLinks;
-using SpaceEditor.Services;
 
 namespace SpaceEditor;
 
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     private Settings Settings => Settings.Default;
     private GameLink? GameLink;
+
+    // Token to ensure overlapping reloads are safely aborted
+    private CancellationTokenSource? _reloadCts;
 
     public string GamePath
     {
@@ -44,7 +45,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             try
             {
                 var latest = await VersionChecker.GetLatestVersionInfo();
-                if (latest.Published.Date != BuildInfo.BuildTimeUtc.Date)
+                if (latest.Published.Date > BuildInfo.BuildTimeUtc.Date)
                 {
                     this.UpdateHints.Visibility = Visibility.Visible;
                 }
@@ -56,6 +57,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private async void Reload(object sender, RoutedEventArgs e)
     {
+        // Abort any currently running background initialization
+        _reloadCts?.Cancel();
+        _reloadCts = new CancellationTokenSource();
+        var token = _reloadCts.Token;
+
         var tabs = this.MainTabs.Items;
         while (tabs.Count > 1)
         {
@@ -68,17 +74,36 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             return;
         }
 
-        this.InfoText.Text = "Loading ...";
+        this.InfoText.Text = "Loading Engine and Game Data in background... (This may take a moment)";
+
         try
         {
+            // Offload directory searching and math to the background thread
             var game = await Task.Run(async () =>
             {
-                var game = new GameProxy(this.GamePath);
-                _ = await game.InputActions;
-                _ = await game.InputIds;
-                return game;
-            });
+                // 1. Initialize GameProxy (Searches directory, loads assemblies)
+                var proxy = new GameProxy(this.GamePath);
+                _ = await proxy.InputActions;
+                _ = await proxy.InputIds;
 
+                token.ThrowIfCancellationRequested();
+
+                // 2. Pre-warm the Blueprint Generator's heavy static meshes in the background.
+                _ = Algorithms.GridShaper.ShapeDB.LargeShapes;
+                _ = Algorithms.GridShaper.ShapeDB.MidShapes;
+
+                // 3. Pre-compile the ILGPU Kernel in the background
+                _ = Algorithms.GridShaper.GpuSetup.Accelerator;
+
+                return proxy;
+            }, token);
+
+            // Double check cancellation before touching the main thread engine or UI
+            if (token.IsCancellationRequested) return;
+
+            // 3. Initialize the VRage Engine connection ON THE MAIN THREAD.
+            // Game engines crash (Exit Code 1) if initialized on a background thread.
+            var newGameLink = new GameLink(game);
             var propertyGridFactoryKey = "CompositePropertyGridControlFactory";
             this.Resources.Remove(propertyGridFactoryKey);
             this.Resources.Add(propertyGridFactoryKey, new CompositePropertyGridControlFactory
@@ -110,7 +135,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 await this.GameLink.DisposeAsync();
             }
 
-            this.GameLink = new GameLink(game);
+            this.GameLink = newGameLink;
 
             tabs.Add(new TabItem
             {
@@ -127,7 +152,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             var sb = new StringBuilder();
             sb.AppendLine("Loading finished");
             sb.AppendLine();
-            
+
             sb.AppendLine("Main Assembly:");
             var gameExe = game.MainAssembly;
             sb.AppendLine($"{gameExe.GetName().Name}");
@@ -136,8 +161,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
             sb.AppendLine();
             sb.AppendLine("Use Tabs above to access individual features");
-            
+
             this.InfoText.Text = sb.ToString();
+        }
+        catch (OperationCanceledException)
+        {
+            // Silently handle task cancellation if the user changes the path rapidly
         }
         catch (Exception ex)
         {

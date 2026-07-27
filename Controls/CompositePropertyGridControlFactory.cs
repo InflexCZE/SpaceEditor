@@ -1,7 +1,4 @@
 ﻿using PropertyTools.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace SpaceEditor.Controls;
@@ -22,9 +19,9 @@ public class CompositePropertyGridControlFactory : PropertyGridControlFactory, I
 
     public virtual FrameworkElement? TryCreateControl(PropertyItem property, PropertyControlFactoryOptions options)
     {
-        foreach(var factory in this.Factories)
+        foreach (var factory in this.Factories)
         {
-            if (factory.TryCreateControl(property, options) is {} control)
+            if (factory.TryCreateControl(property, options) is { } control)
             {
                 return control;
             }

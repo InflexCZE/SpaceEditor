@@ -1,11 +1,7 @@
-﻿using System;
+﻿using SpaceEditor.Rocks;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using SpaceEditor.Rocks;
 
 namespace SpaceEditor.Controls;
 
@@ -32,13 +28,13 @@ public partial class ReflectedObject : UserControl
 
     public object ReflectedInstance
     {
-        get { return (object) GetValue(ReflectedInstanceProperty); }
+        get { return (object)GetValue(ReflectedInstanceProperty); }
         set { SetValue(ReflectedInstanceProperty, value); }
     }
 
     public IEnumerable NewObjectTypeCandidates
     {
-        get { return (IEnumerable) GetValue(NewObjectTypeCandidatesProperty); }
+        get { return (IEnumerable)GetValue(NewObjectTypeCandidatesProperty); }
         set { SetValue(NewObjectTypeCandidatesProperty, value); }
     }
 
@@ -52,7 +48,7 @@ public partial class ReflectedObject : UserControl
         if (e.AddedItems.Count == 0)
             return;
 
-        var type = ((KeyValuePair<string, Type>) e.AddedItems[0]!).Value;
+        var type = ((KeyValuePair<string, Type>)e.AddedItems[0]!).Value;
         this.ReflectedInstance = type.AllocateObjectBuilder();
     }
 }

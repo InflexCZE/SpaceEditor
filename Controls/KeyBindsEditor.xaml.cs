@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using ObservableCollections;
+using SpaceEditor.Data;
+using SpaceEditor.Rocks;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using ObservableCollections;
-using SpaceEditor.Data;
-using SpaceEditor.Rocks;
 
 namespace SpaceEditor.Controls;
 
@@ -19,9 +15,9 @@ namespace SpaceEditor.Controls;
 public partial class KeyBindsEditor : UserControl
 {
     private const string CurrentPreset = "Current";
-    
+
     public GameProxy Game { get; }
-    
+
     private Settings Settings => Settings.Default;
     public ObservableDictionary<string, string> Presets { get; } = new();
     public INotifyCollectionChanged PresetsView => this.Presets.ToNotifyCollectionChanged();
@@ -33,12 +29,12 @@ public partial class KeyBindsEditor : UserControl
         var mappingsFile = GameFacts.GetMappingFile(this.Game.BaseGamePath);
         var content = File.ReadAllText(mappingsFile);
         this.Presets.Add(CurrentPreset, content);
-        
+
         foreach (var (key, dataString) in this.Settings.NamedPresets)
         {
             this.Presets[key] = dataString;
         }
-        
+
         InitializeComponent();
     }
 
@@ -57,7 +53,7 @@ public partial class KeyBindsEditor : UserControl
 
     private void OnPresetChanged2(object? sender, EventArgs e)
     {
-        var key = (string?) this.PresetsCombo.SelectedValue;
+        var key = (string?)this.PresetsCombo.SelectedValue;
         if (key is null)
             return;
 
@@ -119,7 +115,7 @@ public partial class KeyBindsEditor : UserControl
 
     private void OnCurrentVM(Action<PresetVM> action)
     {
-        var vm = (PresetVM?) this.InputsEditorControl.DataContext;
+        var vm = (PresetVM?)this.InputsEditorControl.DataContext;
         if (vm is null)
             return;
 

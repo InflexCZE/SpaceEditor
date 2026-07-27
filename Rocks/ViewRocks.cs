@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace SpaceEditor.Rocks;
@@ -18,7 +13,7 @@ public static class ViewRocks
             if (current is T found)
                 return found;
 
-            current = (FrameworkElement?) VisualTreeHelper.GetParent(current);
+            current = (FrameworkElement?)VisualTreeHelper.GetParent(current);
 
         }
 

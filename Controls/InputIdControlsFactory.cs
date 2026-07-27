@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using PropertyTools.Wpf;
+using SpaceEditor.Data;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using PropertyTools.Wpf;
-using SpaceEditor.Data;
 
 namespace SpaceEditor.Controls;
 
@@ -35,9 +35,9 @@ public class InputIdControlsFactory : IControlFactory
         {
             var inputIds = property.Descriptor.ComponentType.Name switch
             {
-                {} s when s.StartsWith("Digital") => this.InputIds.Digitals,
-                {} s when s.StartsWith("Analog") => this.InputIds.Analogs,
-                {} s when s.StartsWith("Pointer") => this.InputIds.Pointers,
+                { } s when s.StartsWith("Digital") => this.InputIds.Digitals,
+                { } s when s.StartsWith("Analog") => this.InputIds.Analogs,
+                { } s when s.StartsWith("Pointer") => this.InputIds.Pointers,
             };
 
             var keyValueInputs = inputIds.Select(x =>

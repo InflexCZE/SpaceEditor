@@ -1,7 +1,4 @@
 ﻿using g4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SpaceEditor.Rocks;
 
@@ -9,7 +6,7 @@ public static class MeshRocks
 {
     public static IEnumerable<Triangle3d> EnumerateTriangles(this DMesh3 mesh)
     {
-        foreach(var triangle in mesh.Triangles())
+        foreach (var triangle in mesh.Triangles())
         {
             yield return new
             (
@@ -41,7 +38,7 @@ public static class MeshRocks
         var editor = new MeshEditor(target);
         editor.AppendMesh(source, out var newVertices);
 
-        foreach(var vertexId in newVertices)
+        foreach (var vertexId in newVertices)
         {
             var position = target.GetVertex(vertexId);
             //position = transform.Multiply(ref position);
@@ -126,7 +123,7 @@ public static class MeshRocks
             var vertex = rotation.Multiply(ref vertices[vertexIndex]) * scale + origin;
 
             Vector3d normalD = normal;
-            normal = (Vector3f) rotation.Multiply(ref normalD);
+            normal = (Vector3f)rotation.Multiply(ref normalD);
             indices[i] = mesh.AppendVertex(new NewVertexInfo(vertex, normal));
         }
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ReflectionMagic;
+using SpaceEditor.Data;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ReflectionMagic;
-using SpaceEditor.Data;
 
 namespace SpaceEditor.Controls;
 
@@ -46,7 +43,7 @@ public partial class InputsEditor : UserControl
             var cv = CollectionViewSource.GetDefaultView(vm.Actions.Actions.Select(x => x.Value).ToList());
             cv.Filter = x =>
             {
-                var candidate = ((InputActions.InputActionInfo) x).DisplayName;
+                var candidate = ((InputActions.InputActionInfo)x).DisplayName;
                 return candidate.Contains(this.InputActionsSearchString, StringComparison.InvariantCultureIgnoreCase);
             };
 
@@ -62,7 +59,7 @@ public partial class InputsEditor : UserControl
 
     private void OnInputActionSelected(object sender, SelectionChangedEventArgs e)
     {
-        var selected = (InputActions.InputActionInfo?) this.ActionList.SelectedValue;
+        var selected = (InputActions.InputActionInfo?)this.ActionList.SelectedValue;
         if (selected is null)
             goto Nothing;
 
@@ -81,7 +78,7 @@ public partial class InputsEditor : UserControl
         this.BindingsEditor.Visibility = Visibility.Visible;
         return;
 
-        Nothing:
+    Nothing:
         this.BindingsEditor.DataContext = null;
         this.BindingsEditor.ReflectedItems = null;
         this.BindingsEditor.Visibility = Visibility.Hidden;

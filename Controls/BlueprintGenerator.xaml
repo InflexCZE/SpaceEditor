@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:SpaceEditor.Controls"
              xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             PreviewKeyDown="UserControl_PreviewKeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -47,10 +48,40 @@
                     <local:ReflectedObject x:Name="ModelSettings" Grid.Column="1" />
                 </Grid>
 
-                <Button
-                    Click="GenerateBlueprint"
-                    Content="The Preview looks good. Convert it to Blueprint!"
-                />
+                <Grid>
+                    <Button x:Name="GenerateButton" Click="GenerateBlueprint" Content="The Preview looks good. Convert it to Blueprint!" ToolTipService.Placement="Mouse">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <StackPanel Orientation="Vertical" Margin="2">
+                                    <!-- Header -->
+                                    <TextBlock Text="Generation Controls" FontWeight="Bold" Margin="0,0,0,4" />
+
+                                    <!-- Description -->
+                                    <TextBlock Text="Will generate a blueprint based on the loaded model on the right and the selected options above." />
+                                    <TextBlock Text="Blueprint will be layed over the model, use the Draw and Xray toggles for both to adjust the view." />
+                                    <TextBlock Text="Hold 'Shift' while clicking the button to use CPU instead of GPU." />
+                                    <TextBlock Text="It's slower and more likely to hang, use it if the process fails for some reason." />
+                                    <TextBlock Text="In any case, you can press the 'Esc' key once the blueprint generation is running to cancel it." />
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <Grid x:Name="ProgressOverlay" Visibility="Collapsed">
+                        <ProgressBar
+                            x:Name="GenerateProgress"
+                            Minimum="0" Maximum="100" Value="0"
+                            Height="25"
+                        />
+                        <TextBlock
+                            x:Name="ProgressText"
+                            Text="Initializing..."
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="Black"
+                            FontWeight="SemiBold"
+                        />
+                    </Grid>
+                </Grid>
             </StackPanel>
 
             <StackPanel

@@ -1,7 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using SpaceEditor.Data;
 using System.Windows;
-using SpaceEditor.Data;
 
 namespace SpaceEditor
 {

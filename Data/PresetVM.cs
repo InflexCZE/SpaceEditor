@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using ReflectionMagic;
+﻿using ReflectionMagic;
 using SpaceEditor.Rocks;
+using System.Collections;
 
 namespace SpaceEditor.Data;
 
@@ -24,7 +20,7 @@ public class PresetVM : VM
     public string DataString { get; private set; }
     public object RootObject { get; private set; }
     public IDictionary Bindings { get; private set; }
-    
+
     public PresetVM(GameProxy game)
     {
         this.Game = game;
@@ -35,11 +31,11 @@ public class PresetVM : VM
         var def = this.Actions.TryGetInputActionInfo(id)?.DefinitionInstanceStub;
         if (def is null)
             return null;
-    
+
         if (this.Bindings.Contains(def) == false)
             return null;
-    
-        return (IList) this.Bindings[def]!;
+
+        return (IList)this.Bindings[def]!;
     }
 
     public void LoadDataString(string content)
@@ -49,9 +45,9 @@ public class PresetVM : VM
 
         this.DataString = content;
         this.RootObject = DynamicHelper.Unwrap(mappings);
-        this.Bindings = (IDictionary) DynamicHelper.Unwrap(mappings.ControlsPerAction);
+        this.Bindings = (IDictionary)DynamicHelper.Unwrap(mappings.ControlsPerAction);
     }
-    
+
     public string ToDataString()
     {
         return this.Game.SerializeObject(this.RootObject);

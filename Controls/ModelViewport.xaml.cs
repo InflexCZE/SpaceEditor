@@ -1,9 +1,7 @@
 ﻿using g4;
 using SpaceEditor.Data;
 using SpaceEditor.Rocks;
-using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,11 +31,11 @@ public partial class ModelViewport : UserControl
             get => this.ColorImpl;
             set => SetField(ref this.ColorImpl, value);
         }
-        
+
         public float Opacity
         {
-            get => (float) this.Color.A / byte.MaxValue;
-            set => this.Color = this.Color with {A = (byte)(value * byte.MaxValue) };
+            get => (float)this.Color.A / byte.MaxValue;
+            set => this.Color = this.Color with { A = (byte)(value * byte.MaxValue) };
         }
     }
 
@@ -59,7 +57,7 @@ public partial class ModelViewport : UserControl
         (
             m.Triangles().SelectMany(t =>
             {
-                return new[]{ t.a, t.b, t.c };
+                return new[] { t.a, t.b, t.c };
             })
         );
 
@@ -80,7 +78,7 @@ public partial class ModelViewport : UserControl
             Geometry = mesh,
             Transform = Transform3D.Identity
         };
-        
+
         var renderModel = new ModelVisual3D
         {
             Content = geometry
@@ -138,7 +136,7 @@ public partial class ModelViewport : UserControl
             return;
 
         var cameraPosition = this.Camera.Position;
-        UpdateObitCamera(default, ref cameraPosition, new(-(float) diff.X, (float) -diff.Y), 0.03f);
+        UpdateObitCamera(default, ref cameraPosition, new(-(float)diff.X, (float)-diff.Y), 0.03f);
         SetCameraParameters(cameraPosition);
     }
 

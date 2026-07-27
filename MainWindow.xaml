@@ -10,7 +10,7 @@
         Title="Space Editor"
         Height="550"
         Width="1000"
-        d:DataContext="{local:MainWindow}"
+        d:DataContext="{d:DesignInstance Type=local:MainWindow, IsDesignTimeCreatable=True}"
         >
     <TabControl
         Name="MainTabs"

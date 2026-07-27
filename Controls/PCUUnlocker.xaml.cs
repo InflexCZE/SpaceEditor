@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SpaceEditor.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using SpaceEditor.Data;
 
 namespace SpaceEditor.Controls;
 
@@ -53,7 +49,7 @@ public partial class PCUUnlocker : UserControl
                     const string PlayergridPCU = "\"PlayerGridPCU\"";
                     const string TargetCleanupLimit = "\"TargetCleanupLimit\"";
                     const string ExecuteCleanupLimit = "\"ExecuteCleanupLimit\"";
-                    
+
                     var gridSectionBegin = content.IndexOf(PlayergridPCU, StringComparison.InvariantCulture);
                     if (gridSectionBegin < 0)
                         return null;
@@ -83,12 +79,12 @@ public partial class PCUUnlocker : UserControl
 
         Settings.Default.InvokeGameAction(() =>
         {
-            foreach(var (file, newContent) in contents)
+            foreach (var (file, newContent) in contents)
             {
                 File.WriteAllText(file, newContent);
             }
         });
-        
+
         bool UpdateFile(string fileName, Func<string, string?> updateFunction)
         {
             var filePath = GameFacts.TryFindTargetPath(this.Game.ContentPath, [], fileName);
@@ -98,7 +94,7 @@ public partial class PCUUnlocker : UserControl
             }
 
             var content = contents.GetValueOrDefault(filePath) ?? File.ReadAllText(filePath);
-            
+
             var newContent = updateFunction(content);
             if (newContent is null)
                 return false;

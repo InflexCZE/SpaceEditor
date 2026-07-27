@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.IO;
 using System.Reflection;
 
@@ -10,9 +8,9 @@ public static class ReflectionRocks
 {
     public static Type? TryFindType(string assemblyHintPath, ReadOnlySpan<string> probeAssemblies, string typeName)
     {
-        foreach(var assembly in probeAssemblies)
+        foreach (var assembly in probeAssemblies)
         {
-            if (GetLib(assemblyHintPath, assembly).TryFindType(typeName) is {} foundType)
+            if (GetLib(assemblyHintPath, assembly).TryFindType(typeName) is { } foundType)
                 return foundType;
         }
 
@@ -59,7 +57,7 @@ public static class ReflectionRocks
     public static Assembly GetLib(string hintPath, string assembly)
     {
         var app = AppDomain.CurrentDomain;
-        if (TryGetPreloadedAssembly(assembly) is {} preloaded)
+        if (TryGetPreloadedAssembly(assembly) is { } preloaded)
         {
             return preloaded;
         }
@@ -67,7 +65,7 @@ public static class ReflectionRocks
         app.AssemblyResolve += (_, args) =>
         {
             var requestedName = new AssemblyName(args.Name).Name;
-            if (TryGetPreloadedAssembly(requestedName) is {} preloaded)
+            if (TryGetPreloadedAssembly(requestedName) is { } preloaded)
             {
                 return preloaded;
             }
@@ -112,7 +110,7 @@ public static class ReflectionRocks
     public static object AllocateObjectBuilder(this Type obType)
     {
         var instance = Activator.CreateInstance(obType)!;
-        
+
         foreach (var field in obType.GetInstanceMembers().OfType<FieldInfo>())
         {
             if (typeof(ICollection).IsAssignableFrom(field.FieldType) == false)

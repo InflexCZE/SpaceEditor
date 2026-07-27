@@ -30,7 +30,7 @@ public static class EnumerableRocks
             first = false;
             current = enumerator.Current;
         }
-        
+
         yield return (current, first, Last: true);
     }
 

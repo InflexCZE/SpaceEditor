@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace SpaceEditor.Controls;
@@ -15,7 +11,7 @@ public partial class AsyncView : UserControl
     {
         this.DataContextChanged += OnDataContextChanged;
         this.Unloaded += OnUnloaded;
-        
+
         InitializeComponent();
     }
 
@@ -34,7 +30,7 @@ public partial class AsyncView : UserControl
 
         this.Lifetime?.Cancel();
         this.Lifetime = new();
-        
+
         var lifetime = this.Lifetime.Token;
 
         this.LoadingContent.Visibility = Visibility.Visible;
@@ -45,7 +41,7 @@ public partial class AsyncView : UserControl
             try
             {
                 await data.WaitAsync(lifetime);
-                
+
                 this.LoadingContent.Visibility = Visibility.Collapsed;
                 this.MainContent.Visibility = Visibility.Visible;
             }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using g4;
+﻿using g4;
 
 namespace SpaceEditor.Rocks;
 
@@ -24,10 +19,10 @@ public static class Enumerators
     public static IEnumerable<Vector3i> BoxRange(Vector3i minInclusive, Vector3i maxInclusive)
     {
         for (int z = minInclusive.z; z <= maxInclusive.z; ++z)
-        for (int y = minInclusive.y; y <= maxInclusive.y; ++y)
-        for (int x = minInclusive.x; x <= maxInclusive.x; ++x)
-        {
-            yield return new(x, y, z);
-        }
+            for (int y = minInclusive.y; y <= maxInclusive.y; ++y)
+                for (int x = minInclusive.x; x <= maxInclusive.x; ++x)
+                {
+                    yield return new(x, y, z);
+                }
     }
 }

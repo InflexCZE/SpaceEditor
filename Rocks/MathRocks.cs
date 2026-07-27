@@ -1,8 +1,4 @@
 ﻿using g4;
-using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SpaceEditor.Rocks;
 
@@ -41,8 +37,8 @@ public static class MathRocks
     {
         return ForwardUpTranslate
         (
-            (Vector3f) Base6Directions.Vectors[forward],
-            (Vector3f) Base6Directions.Vectors[up],
+            (Vector3f)Base6Directions.Vectors[forward],
+            (Vector3f)Base6Directions.Vectors[up],
             translate
         );
     }
@@ -118,7 +114,7 @@ public static class MathRocks
     {
         return BoxTriangleIntersection.IntersectBoxWithTriangle(box, tri);
     }
-    
+
     public static Bitmap3 Clone(this Bitmap3 value)
     {
         var copy = new Bitmap3(value.Dimensions);

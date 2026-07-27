@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using ClrDebug;
+﻿using ClrDebug;
 using SpaceEditor.Rocks;
+using System.Runtime.CompilerServices;
 
 namespace SpaceEditor.Data.GameLinks;
 
@@ -16,7 +12,7 @@ public partial class GameLink
         public CorDebugProcess Process { get; init; }
         public CorDebugAppDomain Domain { get; init; }
         public CorDebugAssembly[] Assemblies { get; init; }
-        
+
         public CorDebugManagedCallback Callbacks { get; init; }
 
         public (CorDebugModule Module, mdTypeDef Token) FindType(string typeName)
@@ -49,7 +45,7 @@ public partial class GameLink
                     }
                 }
 
-                Found:
+            Found:
                 if (moduleMd!.TryFindTypeDefByName(typePart, parent, out parent).IsFail())
                 {
                     throw new Exception($"Sub type {typePart} not found in {module!.Name}");
@@ -152,7 +148,7 @@ public partial class GameLink
             var result = await ExecutePreparedEval(eval, expectResult: true);
 
             var handle = result as CorDebugHandleValue;
-            
+
             CorDebugValue value = result;
             if (value is CorDebugReferenceValue ptr)
             {
@@ -175,7 +171,7 @@ public partial class GameLink
                     var toString = FindFunction("System.Object", "ToString");
 
                     eval.CallFunction(toString.Raw, 1, [exception.Raw]);
-                    
+
                     var extractedInfo = await Invoke();
                     if (extractedInfo)
                     {
@@ -208,7 +204,7 @@ public partial class GameLink
                 return null!;
             }
 
-            return (CorDebugHandleValue) eval.Result;
+            return (CorDebugHandleValue)eval.Result;
 
             async Task<bool> Invoke()
             {
@@ -274,7 +270,7 @@ public partial class GameLink
             }
 
             T store = default;
-            genericValue.GetValue((IntPtr) (void*) &store);
+            genericValue.GetValue((IntPtr)(void*)&store);
             return store;
         }
 
@@ -282,8 +278,8 @@ public partial class GameLink
             where T : unmanaged
         {
             var type = PrimitiveRuntimeTypeToCorType(typeof(T));
-            var valueHandle = (CorDebugGenericValue) eval.CreateValue(type, null);
-            valueHandle.SetValue((IntPtr) (void*) &value);
+            var valueHandle = (CorDebugGenericValue)eval.CreateValue(type, null);
+            valueHandle.SetValue((IntPtr)(void*)&value);
             return valueHandle;
         }
 

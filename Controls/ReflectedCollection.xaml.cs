@@ -1,21 +1,8 @@
-﻿using System;
+﻿using SpaceEditor.Rocks;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SpaceEditor.Data;
-using SpaceEditor.Rocks;
 
 namespace SpaceEditor.Controls;
 
@@ -59,9 +46,9 @@ public partial class ReflectedCollection : UserControl
 
     private void RemoveBinding(object sender, RoutedEventArgs e)
     {
-        var v = (FrameworkElement) sender;
+        var v = (FrameworkElement)sender;
         var current = v.DataContext!;
-        
+
         UpdateCollection(x =>
         {
             x.Remove(current);
@@ -70,7 +57,7 @@ public partial class ReflectedCollection : UserControl
 
     private void AddElement(object sender, RoutedEventArgs e)
     {
-        var selectedType = (Type?) this.NewElementTypes.SelectedValue;
+        var selectedType = (Type?)this.NewElementTypes.SelectedValue;
         if (selectedType is null)
             return;
 
@@ -84,7 +71,7 @@ public partial class ReflectedCollection : UserControl
     {
         if (this.ReflectedItems is ICollectionView cv)
         {
-            update((IList) cv.SourceCollection);
+            update((IList)cv.SourceCollection);
             cv.Refresh();
             return;
         }
