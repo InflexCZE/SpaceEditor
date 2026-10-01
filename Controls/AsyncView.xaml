@@ -14,7 +14,7 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="Loading..."
+                Text="{DynamicResource AsyncView_Loading}"
                 >
                 <TextBlock.Effect>
                     <DropShadowEffect

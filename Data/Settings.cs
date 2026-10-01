@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using SpaceEditor.Services;
+using System.Text;
 using System.Windows;
 using SpaceEditor.Rocks;
 
@@ -41,15 +42,15 @@ internal sealed partial class Settings
     public bool InvokeGameAction(Action action)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("This action is about change Game Content which may result in incompatibilities, bugs or crashes.");
-        sb.AppendLine("In case of any issues use Steam Verify Game Integrity feature to automatically revert all modifications.");
-        sb.AppendLine("Use at your own risk.");
-        sb.AppendLine("Continue?");
+        sb.AppendLine(LocalizationManager.Text("GameModificationWarning"));
+        sb.AppendLine(LocalizationManager.Text("RestoreGameHint"));
+        sb.AppendLine(LocalizationManager.Text("OwnRisk"));
+        sb.AppendLine(LocalizationManager.Text("ContinueQuestion"));
 
         var response = MessageBox.Show
         (
             sb.ToString(),
-            "Warning",
+            LocalizationManager.Text("WarningTitle"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Warning
         );

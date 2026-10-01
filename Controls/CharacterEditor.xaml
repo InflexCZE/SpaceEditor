@@ -15,16 +15,16 @@
 
         <StackPanel Orientation="Vertical">
             <TextBlock Margin="5, 5, 5, 15" TextWrapping="Wrap">
-                <Run>Character editor allows you to change in-Game Character properties.</Run>
+                <Run Text="{DynamicResource CharacterEditor_Charactereditorallowsyoutochange}" />
                 <LineBreak />
                 <LineBreak />
-                <Run>Experiment freely with the settings in the right panel.</Run>
+                <Run Text="{DynamicResource CharacterEditor_Experimentfreelywiththesettingsin}" />
                 <LineBreak />
                 <LineBreak />
-                <Run>Once ready, connect to game and Editor will automatically mirror your setting to live Game</Run>
+                <Run Text="{DynamicResource CharacterEditor_Oncereadyconnecttogameand}" />
             </TextBlock>
-            <Button Content="Connect to Game" Click="ConnectToGame" Name="ConnectButton" MaxWidth="200" />
-            <Button Content="Disconnect" Click="DisconnectFromGame" Name="DisconnectButton" MaxWidth="200" />
+            <Button Content="{DynamicResource CharacterEditor_ConnecttoGame}" Click="ConnectToGame" Name="ConnectButton" MaxWidth="200" />
+            <Button Content="{DynamicResource CharacterEditor_Disconnect}" Click="DisconnectFromGame" Name="DisconnectButton" MaxWidth="200" />
             <TextBox Name="ErrorOutput" IsReadOnly="True" TextWrapping="Wrap" Margin="0, 10, 0, 0" BorderThickness="0"/>
         </StackPanel>
         

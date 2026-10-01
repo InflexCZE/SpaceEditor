@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using SpaceEditor.Rocks;
+using SpaceEditor.Services;
+using System.ComponentModel;
 
 namespace SpaceEditor.Controls;
 
@@ -45,6 +47,15 @@ public partial class ReflectedObject : UserControl
     public ReflectedObject()
     {
         InitializeComponent();
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
+    }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        // 只重建属性面板的显示模板，不清空双向绑定的游戏对象。
+        var selector = this.InstanceHost.ContentTemplateSelector;
+        this.InstanceHost.ContentTemplateSelector = null;
+        this.InstanceHost.ContentTemplateSelector = selector;
     }
 
     private void OnNewTypeSelected(object sender, SelectionChangedEventArgs e)

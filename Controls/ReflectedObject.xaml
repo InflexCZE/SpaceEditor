@@ -22,7 +22,7 @@
 
         <DataTemplate x:Key="NullTemplate">
             <ComboBox
-                DisplayMemberPath="Key"
+                ItemTemplate="{StaticResource LocalizedTypeNameTemplate}"
                 SelectedValuePath="Value"
                 ItemsSource="{Binding Path=NewObjectTypeCandidates, ElementName=Root, Mode=TwoWay}"
                 SelectionChanged="OnNewTypeSelected"
@@ -37,6 +37,7 @@
     </UserControl.Resources>
 
     <ContentControl
+        x:Name="InstanceHost"
         Content="{Binding Path=ReflectedInstance, ElementName=Root, Mode=TwoWay}"
         ContentTemplateSelector="{StaticResource NullCheckTemplateSelector}"
         />

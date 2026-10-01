@@ -1,6 +1,7 @@
 
 
 # Space Editor
+[简体中文说明](README.zh-CN.md)
 <img align="right" width="160px" height="160px" src="Resources/SpaceEditor.png">
 
 *When you need to mess with SE2 files in style*

@@ -5,6 +5,9 @@ using System.IO;
 using System.Linq;
 using ReflectionMagic;
 using SpaceEditor.Rocks;
+using SpaceEditor.Services;
+using System.ComponentModel;
+using System.Windows;
 
 namespace SpaceEditor.Data;
 
@@ -18,7 +21,22 @@ public class PresetVM : VM
     public string Key
     {
         get => this.KeyImpl;
-        set => SetField(ref this.KeyImpl, value);
+        set
+        {
+            if (SetField(ref this.KeyImpl, value))
+                OnPropertyChanged(nameof(DisplayKey));
+        }
+    }
+
+    public string DisplayKey
+    {
+        get => this.Key == "Current" ? LocalizationManager.Text("CurrentPreset") : this.Key;
+        set
+        {
+            if (this.Key == "Current" && value == LocalizationManager.Text("CurrentPreset"))
+                return;
+            this.Key = value;
+        }
     }
 
     public string DataString { get; private set; }
@@ -28,7 +46,10 @@ public class PresetVM : VM
     public PresetVM(GameProxy game)
     {
         this.Game = game;
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
     }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e) => OnPropertyChanged(nameof(DisplayKey));
 
     public IList? TryGetBindings(Guid id)
     {

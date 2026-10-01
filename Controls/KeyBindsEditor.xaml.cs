@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceEditor.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -108,7 +109,7 @@ public partial class KeyBindsEditor : UserControl
 
             this.Settings.InvokeGameAction(() =>
             {
-                this.Presets[$"Backup {DateTime.Now:F}"] = backup;
+                this.Presets[LocalizationManager.Text("PresetBackup", DateTime.Now.ToString("F"))] = backup;
 
                 var mappingsFile = GameFacts.GetMappingFile(this.Game.BaseGamePath);
                 File.WriteAllText(mappingsFile, newContent);
