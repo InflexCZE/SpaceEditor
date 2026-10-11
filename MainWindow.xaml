@@ -13,14 +13,7 @@
         Width="1000"
         d:DataContext="{local:MainWindow}"
         >
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <TextBlock Text="{DynamicResource LanguageLabel}" VerticalAlignment="Center" Margin="0,0,5,0" />
-            <ComboBox ItemsSource="{x:Static services:LocalizationManager.Languages}"
-                      DisplayMemberPath="DisplayName"
-                      SelectedValuePath="Code"
-                      SelectedValue="{Binding LanguageCode, Source={x:Static services:LocalizationManager.Current}, Mode=TwoWay}" />
-        </StackPanel>
+    <Grid>
     <TabControl
         Name="MainTabs"
         >
@@ -200,6 +193,14 @@
             </Grid>
         </TabItem>
     </TabControl>
-    </DockPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,2,0">
+            <TextBlock Text="{DynamicResource LanguageLabel}" VerticalAlignment="Center" Margin="0,0,5,0" />
+            <ComboBox ItemsSource="{x:Static services:LocalizationManager.Languages}"
+                      DisplayMemberPath="DisplayName"
+                      SelectedValuePath="Code"
+                      SelectedValue="{Binding LanguageCode, Source={x:Static services:LocalizationManager.Current}, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
 
 </Window>
