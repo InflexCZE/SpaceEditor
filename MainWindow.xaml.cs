@@ -97,13 +97,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
             tabs.Add(new TabItem
             {
-                Header = LocalizationManager.Text("KeyBindsTab"),
-                Tag = "KeyBindsTab",
-                Content = new KeyBindsEditor(game)
-            });
-
-            tabs.Add(new TabItem
-            {
                 Header = LocalizationManager.Text("PcuTab"),
                 Tag = "PcuTab",
                 Content = new PCUUnlocker(game)

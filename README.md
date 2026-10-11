@@ -22,9 +22,6 @@ See [Blueprint Generator guide](https://github.com/InflexCZE/SpaceEditor/wiki/Bl
 Space Editor can also manage Character suit color.
 ![Preview](Resources/CharacterEditorPreview.gif)
 
-Space Editor can edit **Key bindings**.
-![Preview](Resources/Preview.png)
-
 
 
 ## Installation
