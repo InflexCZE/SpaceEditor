@@ -52,7 +52,7 @@ public class InputIdControlsFactory : IControlFactory
             var cb = new ComboBox
             {
                 ItemsSource = keyValueInputs,
-                DisplayMemberPath = "Value",
+                ItemTemplate = LocalizedNameConverter.Template("Value"),
                 SelectedValuePath = "Key",
             };
 

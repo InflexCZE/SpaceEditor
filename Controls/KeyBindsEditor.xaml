@@ -21,7 +21,7 @@
         
         <ComboBox
             Name="PresetsCombo"
-            DisplayMemberPath="Key"
+            ItemTemplate="{StaticResource LocalizedPresetNameTemplate}"
             SelectedValuePath="Key"
             SelectionChanged="OnPresetChanged"
             IsSynchronizedWithCurrentItem="True"
@@ -37,7 +37,7 @@
             TextWrapping="NoWrap"
             VerticalAlignment="Center"
             Padding="2"
-            Text="{Binding Path=Key, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Path=DisplayKey, UpdateSourceTrigger=PropertyChanged}"
             />
         
         <StackPanel
@@ -55,19 +55,19 @@
             </StackPanel.Resources>
 
             <Button
-                Content="Save"
+                Content="{DynamicResource KeyBindsEditor_Save}"
                 Name="SaveButton"
                 Click="OnSaveClicked"
             />
 
             <Button
-                Content="Remove"
+                Content="{DynamicResource KeyBindsEditor_Remove}"
                 Name="RemoveButton"
                 Click="OnRemoveClicked"
             />
             
             <Button
-                Content="Apply to Game"
+                Content="{DynamicResource KeyBindsEditor_ApplytoGame}"
                 Name="ApplyButton"
                 Click="OnApplyClicked"
                 />

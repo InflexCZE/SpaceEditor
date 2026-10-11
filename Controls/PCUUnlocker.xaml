@@ -29,13 +29,13 @@
 
             <TextBlock
                 Margin="2"
-                Text="Will make your PCU pool so high, that you won't be able to exhaust it even if you try :)"
+                Text="{DynamicResource PCUUnlocker_WillmakeyourPCUpoolso}"
                 />
                 
             <Button
                 Grid.Row="1"
                 Margin="2, 2, 0, 0"
-                Content="Unlock my PCU!"
+                Content="{DynamicResource PCUUnlocker_UnlockmyPCU}"
                 Click="UnlockPCU"
                 />
         </Grid>

@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using SpaceEditor.Algorithms;
 
 namespace SpaceEditor.Controls;
 
@@ -22,6 +25,18 @@ public class CompositePropertyGridControlFactory : PropertyGridControlFactory, I
 
     public virtual FrameworkElement? TryCreateControl(PropertyItem property, PropertyControlFactoryOptions options)
     {
+        if (property.Descriptor.ComponentType == typeof(GridShaper.GeneratorSettings)
+            && property.Descriptor.Name == nameof(GridShaper.GeneratorSettings.BlockSize))
+        {
+            var sizes = new ComboBox
+            {
+                ItemsSource = new[] { GridShaper.BlockSizes.TwoPointFive, GridShaper.BlockSizes.HalfMeter },
+                ItemTemplate = LocalizedNameConverter.Template("", "BlockSize")
+            };
+            sizes.SetBinding(ComboBox.SelectedItemProperty, property.CreateBinding(UpdateSourceTrigger.PropertyChanged));
+            return sizes;
+        }
+
         foreach(var factory in this.Factories)
         {
             if (factory.TryCreateControl(property, options) is {} control)

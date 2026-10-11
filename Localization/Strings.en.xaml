@@ -1,0 +1,93 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LanguageName" xml:space="preserve">English</sys:String>
+    <sys:String x:Key="NameWithOriginal" xml:space="preserve">{0} ({1})</sys:String>
+    <sys:String x:Key="AsyncView_Loading" xml:space="preserve">Loading...</sys:String>
+    <sys:String x:Key="BlueprintDimensions" xml:space="preserve">Blocks: X: {0} Y: {1} Z: {2} Total: {3}</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Blueprint" xml:space="preserve">Blueprint:</sys:String>
+    <sys:String x:Key="BlueprintGenerator_BlueprintGeneratorallowsyoutoquickly" xml:space="preserve">Blueprint Generator allows you to quickly convert any 3D model to In-Game Blueprint.</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Blueprintgeneratorisexperimentalfeature" xml:space="preserve">Blueprint generator is experimental feature.</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Draw" xml:space="preserve">Draw</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Furtherimprovementswillbedonebased" xml:space="preserve">Further improvements will be done based on user feedback.</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Iwouldliketoexaminethe" xml:space="preserve">I would like to examine the Blueprint closer. Please export it as model for me</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Model" xml:space="preserve">Model:</sys:String>
+    <sys:String x:Key="BlueprintGenerator_SelectModel" xml:space="preserve">Select Model</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Startbyselectingmodel" xml:space="preserve">Start by selecting model.</sys:String>
+    <sys:String x:Key="BlueprintGenerator_TheBlueprintlooksgoodExportit" xml:space="preserve">The Blueprint looks good. Export it to Game Please!</sys:String>
+    <sys:String x:Key="BlueprintGenerator_ThePreviewlooksgoodConvertit" xml:space="preserve">The Preview looks good. Convert it to Blueprint!</sys:String>
+    <sys:String x:Key="BlueprintGenerator_XRay" xml:space="preserve">XRay</sys:String>
+    <sys:String x:Key="BlueprintTab" xml:space="preserve">Blueprint Generator</sys:String>
+    <sys:String x:Key="CharacterEditor_Charactereditorallowsyoutochange" xml:space="preserve">Character editor allows you to change in-Game Character properties.</sys:String>
+    <sys:String x:Key="CharacterEditor_ConnecttoGame" xml:space="preserve">Connect to Game</sys:String>
+    <sys:String x:Key="CharacterEditor_Disconnect" xml:space="preserve">Disconnect</sys:String>
+    <sys:String x:Key="CharacterEditor_Experimentfreelywiththesettingsin" xml:space="preserve">Experiment freely with the settings in the right panel.</sys:String>
+    <sys:String x:Key="CharacterEditor_Oncereadyconnecttogameand" xml:space="preserve">Once ready, connect to game and Editor will automatically mirror your setting to live Game</sys:String>
+    <sys:String x:Key="CharacterTab" xml:space="preserve">Character</sys:String>
+    <sys:String x:Key="ChooseGameFirst" xml:space="preserve">First, please show me where is the Game installed</sys:String>
+    <sys:String x:Key="ChooseGameFolder" xml:space="preserve">Select the Space Engineers 2 installation folder</sys:String>
+    <sys:String x:Key="ChooseModel" xml:space="preserve">Select a model to convert to a blueprint</sys:String>
+    <sys:String x:Key="ConnectionSuccess" xml:space="preserve">Connected successfully</sys:String>
+    <sys:String x:Key="ContinueQuestion" xml:space="preserve">Continue?</sys:String>
+    <sys:String x:Key="CurrentPreset" xml:space="preserve">Current</sys:String>
+    <sys:String x:Key="FeatureHint" xml:space="preserve">Use Tabs above to access individual features</sys:String>
+    <sys:String x:Key="GameModificationWarning" xml:space="preserve">This action is about change Game Content which may result in incompatibilities, bugs or crashes.</sys:String>
+    <sys:String x:Key="KeyBindsEditor_ApplytoGame" xml:space="preserve">Apply to Game</sys:String>
+    <sys:String x:Key="KeyBindsEditor_Remove" xml:space="preserve">Remove</sys:String>
+    <sys:String x:Key="KeyBindsEditor_Save" xml:space="preserve">Save</sys:String>
+    <sys:String x:Key="KeyBindsTab" xml:space="preserve">Key Binds</sys:String>
+    <sys:String x:Key="LanguageLabel" xml:space="preserve">Language:</sys:String>
+    <sys:String x:Key="LoadingComplete" xml:space="preserve">Loading finished</sys:String>
+    <sys:String x:Key="LoadingError" xml:space="preserve">Exception happened during initial loading:</sys:String>
+    <sys:String x:Key="LoadingStatus" xml:space="preserve">Loading ...</sys:String>
+    <sys:String x:Key="MainAssembly" xml:space="preserve">Main Assembly:</sys:String>
+    <sys:String x:Key="MainWindow_Added05mBlockstoBlueprint" xml:space="preserve">- Added 0.5m Blocks to Blueprint Generator</sys:String>
+    <sys:String x:Key="MainWindow_Addedautocheckforlatestversion" xml:space="preserve">- Added auto-check for latest version</sys:String>
+    <sys:String x:Key="MainWindow_AddedBlueprintGenerator" xml:space="preserve">- Added Blueprint Generator</sys:String>
+    <sys:String x:Key="MainWindow_AddedCharacterEditor" xml:space="preserve">- Added Character Editor</sys:String>
+    <sys:String x:Key="MainWindow_AddedModelscalingtoBlueprintGenerator" xml:space="preserve">- Added Model scaling to Blueprint Generator</sys:String>
+    <sys:String x:Key="MainWindow_AddedPCUUnlocker" xml:space="preserve">- Added PCU Unlocker</sys:String>
+    <sys:String x:Key="MainWindow_Aug102025v103" xml:space="preserve">Aug 10 2025 - v1.0.3</sys:String>
+    <sys:String x:Key="MainWindow_CanchangeCharactersuitcolor" xml:space="preserve">- Can change Character suit color</sys:String>
+    <sys:String x:Key="MainWindow_Changelog" xml:space="preserve">Change log</sys:String>
+    <sys:String x:Key="MainWindow_Dec32025v111" xml:space="preserve">Dec 3 2025 - v1.1.1</sys:String>
+    <sys:String x:Key="MainWindow_Fixeddetectionofbinslocationin" xml:space="preserve">- Fixed detection of bins location in Steam builds</sys:String>
+    <sys:String x:Key="MainWindow_FixedGamecrashwhenimporting0" xml:space="preserve">- Fixed Game crash when importing 0.5m Blueprints</sys:String>
+    <sys:String x:Key="MainWindow_FixedPCUunlockertoaccountalso" xml:space="preserve">- Fixed PCU unlocker to account also for pesky Trash removal duplicated data</sys:String>
+    <sys:String x:Key="MainWindow_Fixedsometimesbuggyrenderof3D" xml:space="preserve">- Fixed sometimes buggy render of 3D Viewport</sys:String>
+    <sys:String x:Key="MainWindow_Jul262025v100" xml:space="preserve">Jul 26 2025 - v1.0.0</sys:String>
+    <sys:String x:Key="MainWindow_Jul282025v101" xml:space="preserve">Jul 28 2025 - v1.0.1</sys:String>
+    <sys:String x:Key="MainWindow_Jul292025v102" xml:space="preserve">Jul 29 2025 - v1.0.2</sys:String>
+    <sys:String x:Key="MainWindow_Jun72025v093" xml:space="preserve">Jun 7 2025 - v0.9.3</sys:String>
+    <sys:String x:Key="MainWindow_KeyBindsEditorMk1" xml:space="preserve"> - Key Binds Editor Mk1</sys:String>
+    <sys:String x:Key="MainWindow_LocateGame" xml:space="preserve">Locate Game</sys:String>
+    <sys:String x:Key="MainWindow_LocatesandloadsSE2binaries" xml:space="preserve">- Locates and loads SE2 binaries</sys:String>
+    <sys:String x:Key="MainWindow_Main" xml:space="preserve">Main</sys:String>
+    <sys:String x:Key="MainWindow_May122025v09" xml:space="preserve">May 12 2025 - v0.9</sys:String>
+    <sys:String x:Key="MainWindow_May122025v091" xml:space="preserve">May 12 2025 - v0.9.1</sys:String>
+    <sys:String x:Key="MainWindow_May132025v092" xml:space="preserve">May 13 2025 - v0.9.2</sys:String>
+    <sys:String x:Key="MainWindow_Newversionavailable" xml:space="preserve">New version available.</sys:String>
+    <sys:String x:Key="MainWindow_Nov302025v110" xml:space="preserve">Nov 30 2025 - v1.1.0</sys:String>
+    <sys:String x:Key="MainWindow_ReadyforVS2" xml:space="preserve">- Ready for VS2</sys:String>
+    <sys:String x:Key="MainWindow_Seewhatsnew" xml:space="preserve">See what&apos;s new!</sys:String>
+    <sys:String x:Key="MainWindow_WritesnewBindingstoSE2Content" xml:space="preserve"> - Writes new Bindings to SE2 Content</sys:String>
+    <sys:String x:Key="ModelDimensions" xml:space="preserve">Size: {0:f2} x {1:f2} x {2:f2}m</sys:String>
+    <sys:String x:Key="ModelFileFilter" xml:space="preserve">Model (*.obj)|*.obj</sys:String>
+    <sys:String x:Key="ModelName" xml:space="preserve">Model: {0}</sys:String>
+    <sys:String x:Key="ModelPerformanceWarning" xml:space="preserve">Mode is quite large, performance issues may appear.</sys:String>
+    <sys:String x:Key="ModelTooLarge" xml:space="preserve">Mode is too larget to safely convert.</sys:String>
+    <sys:String x:Key="OwnRisk" xml:space="preserve">Use at your own risk.</sys:String>
+    <sys:String x:Key="PcuTab" xml:space="preserve">PCU Unlocker</sys:String>
+    <sys:String x:Key="PCUUnlocker_UnlockmyPCU" xml:space="preserve">Unlock my PCU!</sys:String>
+    <sys:String x:Key="PCUUnlocker_WillmakeyourPCUpoolso" xml:space="preserve">Will make your PCU pool so high, that you won&apos;t be able to exhaust it even if you try :)</sys:String>
+    <sys:String x:Key="PcuUnlockError" xml:space="preserve">Could not unlock the PCUs. Game Content mush have changed.
+Update to latest version of the tool</sys:String>
+    <sys:String x:Key="PresetBackup" xml:space="preserve">Backup {0}</sys:String>
+    <sys:String x:Key="ReflectedCollection_AddBinding" xml:space="preserve">Add Binding</sys:String>
+    <sys:String x:Key="ReflectedCollection_RemoveBinding" xml:space="preserve">Remove Binding</sys:String>
+    <sys:String x:Key="RestoreGameHint" xml:space="preserve">In case of any issues use Steam Verify Game Integrity feature to automatically revert all modifications.</sys:String>
+    <sys:String x:Key="SaveModel" xml:space="preserve">Export blueprint as OBJ model</sys:String>
+    <sys:String x:Key="ScaleDown" xml:space="preserve">Scale it down.</sys:String>
+    <sys:String x:Key="ScaleRecommendation" xml:space="preserve">Recommended to scale it down.</sys:String>
+    <sys:String x:Key="TestingConnection" xml:space="preserve">Testing connection ...</sys:String>
+    <sys:String x:Key="UnnamedBlueprint" xml:space="preserve">No Name</sys:String>
+    <sys:String x:Key="WarningTitle" xml:space="preserve">Warning</sys:String>
+</ResourceDictionary>

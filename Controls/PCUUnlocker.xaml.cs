@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceEditor.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -78,7 +79,7 @@ public partial class PCUUnlocker : UserControl
 
         if (success == false)
         {
-            MessageBox.Show("Could not unlock the PCUs. Game Content mush have changed.\nUpdate to latest version of the tool");
+            MessageBox.Show(LocalizationManager.Text("PcuUnlockError"));
         }
 
         Settings.Default.InvokeGameAction(() =>

@@ -21,6 +21,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     
     private Settings Settings => Settings.Default;
     private GameLink? GameLink;
+    private Func<string>? InfoMessage;
 
     public string GamePath
     {
@@ -38,6 +39,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         this.DataContext = this;
         this.Loaded += Reload;
         InitializeComponent();
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
 
         this.Dispatcher.InvokeAsync(async () =>
         {
@@ -64,11 +66,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         if (string.IsNullOrWhiteSpace(this.GamePath))
         {
-            this.InfoText.Text = "First, please show me where is the Game installed";
+            SetInfo(() => LocalizationManager.Text("ChooseGameFirst"));
             return;
         }
 
-        this.InfoText.Text = "Loading ...";
+        SetInfo(() => LocalizationManager.Text("LoadingStatus"));
         try
         {
             var game = await Task.Run(async () =>
@@ -95,13 +97,15 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
             tabs.Add(new TabItem
             {
-                Header = "Key Binds",
+                Header = LocalizationManager.Text("KeyBindsTab"),
+                Tag = "KeyBindsTab",
                 Content = new KeyBindsEditor(game)
             });
 
             tabs.Add(new TabItem
             {
-                Header = "PCU Unlocker",
+                Header = LocalizationManager.Text("PcuTab"),
+                Tag = "PcuTab",
                 Content = new PCUUnlocker(game)
             });
 
@@ -114,41 +118,64 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
             tabs.Add(new TabItem
             {
-                Header = "Character",
+                Header = LocalizationManager.Text("CharacterTab"),
+                Tag = "CharacterTab",
                 Content = new CharacterEditor(game, this.GameLink)
             });
 
             tabs.Add(new TabItem
             {
-                Header = "Blueprint Generator",
+                Header = LocalizationManager.Text("BlueprintTab"),
+                Tag = "BlueprintTab",
                 Content = new BlueprintGenerator()
             });
 
-            var sb = new StringBuilder();
-            sb.AppendLine("Loading finished");
-            sb.AppendLine();
-            
-            sb.AppendLine("Main Assembly:");
-            var gameExe = game.MainAssembly;
-            sb.AppendLine($"{gameExe.GetName().Name}");
-            sb.AppendLine($"{gameExe.GetName().Version}");
-            sb.AppendLine($"{gameExe.Location}");
-
-            sb.AppendLine();
-            sb.AppendLine("Use Tabs above to access individual features");
-            
-            this.InfoText.Text = sb.ToString();
+            SetInfo(() => GameInfo(game));
         }
         catch (Exception ex)
         {
-            this.InfoText.Text = "Exception happened during initial loading:" + Environment.NewLine + ex;
+            SetInfo(() => LocalizationManager.Text("LoadingError") + Environment.NewLine + ex);
         }
+    }
+
+    private static string GameInfo(GameProxy game)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine(LocalizationManager.Text("LoadingComplete"));
+        sb.AppendLine();
+
+        sb.AppendLine(LocalizationManager.Text("MainAssembly"));
+        var gameExe = game.MainAssembly;
+        sb.AppendLine($"{gameExe.GetName().Name}");
+        sb.AppendLine($"{gameExe.GetName().Version}");
+        sb.AppendLine($"{gameExe.Location}");
+
+        sb.AppendLine();
+        sb.AppendLine(LocalizationManager.Text("FeatureHint"));
+
+        return sb.ToString();
+    }
+
+    private void SetInfo(Func<string> message)
+    {
+        this.InfoMessage = message;
+        this.InfoText.Text = message();
+    }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        foreach (var tab in this.MainTabs.Items.OfType<TabItem>())
+            if (tab.Tag is string key)
+                tab.Header = LocalizationManager.Text(key);
+        if (this.InfoMessage is not null)
+            this.InfoText.Text = this.InfoMessage();
     }
 
     private void OnLocateGame(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFolderDialog
         {
+            Title = LocalizationManager.Text("ChooseGameFolder"),
             Multiselect = false,
         };
 

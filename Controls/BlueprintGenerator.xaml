@@ -18,16 +18,16 @@
                 Margin="5, 5, 5, 15"
                 TextWrapping="Wrap"
                 >
-                <Run>Blueprint Generator allows you to quickly convert any 3D model to In-Game Blueprint.</Run>
+                <Run Text="{DynamicResource BlueprintGenerator_BlueprintGeneratorallowsyoutoquickly}" />
                 <LineBreak />
-                <Run>Start by selecting model.</Run>
+                <Run Text="{DynamicResource BlueprintGenerator_Startbyselectingmodel}" />
                 <LineBreak />
             </TextBlock>
 
             <Button 
                 Margin="5"
                 Click="SelectModel"
-                Content="Select Model"
+                Content="{DynamicResource BlueprintGenerator_SelectModel}"
                 />
 
             <StackPanel
@@ -49,7 +49,7 @@
 
                 <Button
                     Click="GenerateBlueprint"
-                    Content="The Preview looks good. Convert it to Blueprint!"
+                    Content="{DynamicResource BlueprintGenerator_ThePreviewlooksgoodConvertit}"
                 />
             </StackPanel>
 
@@ -66,13 +66,13 @@
                 <Button
                     Margin="5"
                     Click="ExportBlueprint"
-                    Content="The Blueprint looks good. Export it to Game Please!"
+                    Content="{DynamicResource BlueprintGenerator_TheBlueprintlooksgoodExportit}"
                     />
 
                 <Button
                     Margin="5"
                     Click="ExportBlueprintAsModel"
-                    Content="I would like to examine the Blueprint closer. Please export it as model for me"
+                    Content="{DynamicResource BlueprintGenerator_Iwouldliketoexaminethe}"
                 />
             </StackPanel>
         </StackPanel>
@@ -85,9 +85,9 @@
             TextWrapping="Wrap"
             VerticalAlignment="Bottom"
             >
-            <Run>Blueprint generator is experimental feature.</Run>
+            <Run Text="{DynamicResource BlueprintGenerator_Blueprintgeneratorisexperimentalfeature}" />
             <LineBreak />
-            <Run>Further improvements will be done based on user feedback.</Run>
+            <Run Text="{DynamicResource BlueprintGenerator_Furtherimprovementswillbedonebased}" />
         </TextBlock>
 
         <Grid
@@ -161,13 +161,13 @@
                     </ResourceDictionary>
                 </Grid.Resources>
                 
-                <TextBlock FontWeight="Bold" Text="Model:" />
-                <TextBlock FontWeight="Bold" Text="Blueprint:" Grid.Row="1" />
+                <TextBlock FontWeight="Bold" Text="{DynamicResource BlueprintGenerator_Model}" />
+                <TextBlock FontWeight="Bold" Text="{DynamicResource BlueprintGenerator_Blueprint}" Grid.Row="1" />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="1"
-                    Content="Draw"
+                    Content="{DynamicResource BlueprintGenerator_Draw}"
                     IsChecked="True"
                     VerticalAlignment="Center"
                     />
@@ -175,21 +175,21 @@
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="1"
-                    Content="Draw"
+                    Content="{DynamicResource BlueprintGenerator_Draw}"
                     IsChecked="True"
                     />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="2"
-                    Content="XRay"
+                    Content="{DynamicResource BlueprintGenerator_XRay}"
                     Name="XRayModel"
                     />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="2"
-                    Content="XRay"
+                    Content="{DynamicResource BlueprintGenerator_XRay}"
                     Name="XRayBlueprint"
                     />
 

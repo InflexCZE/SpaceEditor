@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ReflectionMagic;
 using SpaceEditor.Data;
+using SpaceEditor.Services;
 
 namespace SpaceEditor.Controls;
 
@@ -35,7 +36,11 @@ public partial class InputsEditor : UserControl
     {
         this.DataContextChanged += OnDataContextChanged;
         InitializeComponent();
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
     }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
+        => (this.ActionList.ItemsSource as ICollectionView)?.Refresh();
 
     private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -47,7 +52,8 @@ public partial class InputsEditor : UserControl
             cv.Filter = x =>
             {
                 var candidate = ((InputActions.InputActionInfo) x).DisplayName;
-                return candidate.Contains(this.InputActionsSearchString, StringComparison.InvariantCultureIgnoreCase);
+                return candidate.Contains(this.InputActionsSearchString, StringComparison.InvariantCultureIgnoreCase)
+                    || LocalizationManager.DisplayName(candidate).Contains(this.InputActionsSearchString, StringComparison.InvariantCultureIgnoreCase);
             };
 
             this.ActionList.ItemsSource = cv;

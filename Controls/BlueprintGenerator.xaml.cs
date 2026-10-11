@@ -1,4 +1,5 @@
-﻿using Assimp;
+﻿using SpaceEditor.Services;
+using Assimp;
 using g4;
 using Microsoft.Win32;
 using SpaceEditor.Algorithms;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace SpaceEditor.Controls;
 
@@ -118,6 +120,7 @@ public partial class BlueprintGenerator : UserControl
     public CancellationTokenSource? ModelLifetime;
         
     public CancellationTokenSource? GeneratorLifetime;
+    private Func<string>? BlueprintInfoText;
 
     private ModelSettings ModelSettingsVM
     {
@@ -134,6 +137,7 @@ public partial class BlueprintGenerator : UserControl
     public BlueprintGenerator()
     {
         InitializeComponent();
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
         this.GeneratorSettings.ReflectedInstance = new GridShaper.GeneratorSettings();
         this.ModelSettingsVM = new ModelSettings
         {
@@ -143,7 +147,7 @@ public partial class BlueprintGenerator : UserControl
 
     private void SelectModel(object sender, RoutedEventArgs e)
     {
-        var selectFile = new OpenFileDialog();
+        var selectFile = new OpenFileDialog { Title = LocalizationManager.Text("ChooseModel") };
         if (selectFile.ShowDialog(Window.GetWindow(this)) != true)
             return;
 
@@ -185,23 +189,7 @@ public partial class BlueprintGenerator : UserControl
         var bb = this.Model.CachedBounds;
         this.ModelSettingsVM = this.ModelSettingsVM with { ModelSize = (float) bb.Extents.MaxAbs * 2 };
 
-        var modelInfo = new StringBuilder();
-        modelInfo.AppendLine($"Model: {this.BlueprintName.Text}");
-        modelInfo.AppendLine($"Size: {bb.Width:f2} x {bb.Height:f2} x {bb.Depth:f2}m");
-
-        var modelSize = Math.Max(bb.Min.MaxAbs, bb.Max.MaxAbs) * 2;
-        if (modelSize > 3000)
-        {
-            modelInfo.AppendLine("Mode is too larget to safely convert.");
-            modelInfo.AppendLine("Scale it down.");
-        }
-        else if (modelSize > 500)
-        {
-            modelInfo.AppendLine("Mode is quite large, performance issues may appear.");
-            modelInfo.AppendLine("Recommended to scale it down.");
-        }
-
-        this.ModelDetails.Text = modelInfo.ToString().Trim();
+        RefreshModelDetails();
         lifetime.Register(() =>
         {
             this.ModelDetails.Text = null;
@@ -216,6 +204,35 @@ public partial class BlueprintGenerator : UserControl
 
         this.ModelsViewport.ScaleToFitCurrentModels();
         this.GenerateBlueprintPanel.Visibility = Visibility.Visible;
+    }
+
+    private void RefreshModelDetails()
+    {
+        if (this.Model is null)
+            return;
+        var bb = this.Model.CachedBounds;
+        var modelInfo = new StringBuilder();
+        modelInfo.AppendLine(LocalizationManager.Text("ModelName", this.BlueprintName.Text));
+        modelInfo.AppendLine(LocalizationManager.Text("ModelDimensions", bb.Width, bb.Height, bb.Depth));
+        var modelSize = Math.Max(bb.Min.MaxAbs, bb.Max.MaxAbs) * 2;
+        if (modelSize > 3000)
+        {
+            modelInfo.AppendLine(LocalizationManager.Text("ModelTooLarge"));
+            modelInfo.AppendLine(LocalizationManager.Text("ScaleDown"));
+        }
+        else if (modelSize > 500)
+        {
+            modelInfo.AppendLine(LocalizationManager.Text("ModelPerformanceWarning"));
+            modelInfo.AppendLine(LocalizationManager.Text("ScaleRecommendation"));
+        }
+        this.ModelDetails.Text = modelInfo.ToString().Trim();
+    }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        RefreshModelDetails();
+        if (this.BlueprintInfoText is not null)
+            this.BlueprintDetails.Text = this.BlueprintInfoText();
     }
 
     private async void GenerateBlueprint(object sender, RoutedEventArgs e)
@@ -252,12 +269,14 @@ public partial class BlueprintGenerator : UserControl
 
             Vector3i dimensions = GetBlueprintDiemensions(usedIndicies);
 
-            string info = $"Blocks: X: {dimensions.x} Y: {dimensions.y} Z: {dimensions.z} Total: {usedIndicies.Count()}";
-			this.BlueprintDetails.Text = info;
+            var count = usedIndicies.Count();
+            this.BlueprintInfoText = () => LocalizationManager.Text("BlueprintDimensions", dimensions.x, dimensions.y, dimensions.z, count);
+            this.BlueprintDetails.Text = this.BlueprintInfoText();
 
             lifetime.Register(() =>
             {
                 this.BlueprintDetails.Text = null;
+                this.BlueprintInfoText = null;
             });
         }
         catch
@@ -289,7 +308,7 @@ public partial class BlueprintGenerator : UserControl
         var name = this.BlueprintName.Text;
         if (string.IsNullOrWhiteSpace(name))
         {
-            name = "No Name";
+            name = LocalizationManager.Text("UnnamedBlueprint");
             this.BlueprintName.Text = name;
         }
 
@@ -301,8 +320,9 @@ public partial class BlueprintGenerator : UserControl
         var blueprint = (BlueprintMesh)this.ExportBlueprintPanel.Tag;
 
         var saveLocation = new SaveFileDialog();
+        saveLocation.Title = LocalizationManager.Text("SaveModel");
         saveLocation.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        saveLocation.Filter = "Model (*.obj)|*.obj";
+        saveLocation.Filter = LocalizationManager.Text("ModelFileFilter");
         saveLocation.AddExtension = true;
         saveLocation.DefaultExt = "obj";
         saveLocation.FileName = this.BlueprintName.Text;

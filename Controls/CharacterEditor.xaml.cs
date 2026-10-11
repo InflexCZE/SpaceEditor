@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceEditor.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Windows.Media.Imaging;
 using ColorPicker.Models;
 using SpaceEditor.Data;
 using SpaceEditor.Data.GameLinks;
+using System.ComponentModel;
 
 namespace SpaceEditor.Controls;
 
@@ -28,6 +30,8 @@ public partial class CharacterEditor : UserControl
     public volatile NotifyableColor? Color;
     
     private readonly GameLink GameLink;
+    private Exception? LastStatusError;
+    private string? LastStatusKey;
 
     private bool IsConnectedToGameImpl;
     private bool IsConnectedToGame
@@ -55,6 +59,7 @@ public partial class CharacterEditor : UserControl
         this.GameLink = gameLink;
         
         InitializeComponent();
+        PropertyChangedEventManager.AddHandler(LocalizationManager.Current, OnLanguageChanged, nameof(LocalizationManager.LanguageCode));
         this.IsConnectedToGame = false;
 
         var c = this.ColorPicker.Color;
@@ -271,7 +276,7 @@ public partial class CharacterEditor : UserControl
         var connectionTask = this.GameLink.TestConnection();
         this.LastConnectionTask = connectionTask;
 
-        PrintStatus(success: "Testing connection ...");
+        PrintStatus(success: "TestingConnection");
         
         var button = (Button) sender;
         button.IsEnabled = false;
@@ -309,7 +314,7 @@ public partial class CharacterEditor : UserControl
             UpdatePreview();
         }
 
-        PrintStatus(connectionError, "Connected successfully");
+        PrintStatus(connectionError, "ConnectionSuccess");
     }
 
     private async void DisconnectFromGame(object _, RoutedEventArgs __)
@@ -350,7 +355,9 @@ public partial class CharacterEditor : UserControl
 
     private void PrintStatus(Exception? error = null, string? success = null)
     {
-        var message = success;
+        this.LastStatusError = error;
+        this.LastStatusKey = success;
+        var message = string.IsNullOrEmpty(success) ? success : LocalizationManager.Text(success);
         
         if (error is not null)
         {
@@ -362,4 +369,7 @@ public partial class CharacterEditor : UserControl
 
         this.ErrorOutput.Text = message ?? string.Empty;
     }
+
+    private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
+        => PrintStatus(this.LastStatusError, this.LastStatusKey);
 }

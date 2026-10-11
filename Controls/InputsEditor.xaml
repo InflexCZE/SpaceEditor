@@ -47,7 +47,7 @@
                 Name="ActionList"
                 SelectionMode="Single"
                 SelectionChanged="OnInputActionSelected"
-                DisplayMemberPath="DisplayName"
+                ItemTemplate="{StaticResource LocalizedActionNameTemplate}"
                 />
         </Grid>
 
