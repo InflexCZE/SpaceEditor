@@ -52,7 +52,7 @@ public partial class ReflectedObject : UserControl
 
     private void OnLanguageChanged(object? sender, PropertyChangedEventArgs e)
     {
-        // 只重建属性面板的显示模板，不清空双向绑定的游戏对象。
+        // Re-applying the selector rebuilds the property grid labels without resetting the two-way bound instance
         var selector = this.InstanceHost.ContentTemplateSelector;
         this.InstanceHost.ContentTemplateSelector = null;
         this.InstanceHost.ContentTemplateSelector = selector;

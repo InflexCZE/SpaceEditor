@@ -6,7 +6,7 @@ using SpaceEditor.Services;
 
 namespace SpaceEditor.Controls;
 
-/// <summary>翻译列表项的可见名称，SelectedValue 仍为原始键或游戏对象。</summary>
+/// <summary>Translates only the displayed text; SelectedValue stays the original key or game object.</summary>
 public sealed class LocalizedNameConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -14,7 +14,7 @@ public sealed class LocalizedNameConverter : IMultiValueConverter
         if (values[0] is not string name)
             return string.Empty;
         if (parameter is "BlockSize")
-            return LocalizationManager.NameTranslation(name) ?? name;
+            return LocalizationManager.TranslateName(name) ?? name;
         return parameter is "Preset" && name == "Current"
             ? LocalizationManager.Text("CurrentPreset")
             : parameter is "Preset" ? name : LocalizationManager.DisplayName(name);

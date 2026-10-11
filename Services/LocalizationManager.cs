@@ -1,52 +1,41 @@
 using System.ComponentModel;
-using System.IO;
-using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace SpaceEditor.Services;
 
-/// <summary>切换界面资源，不改变游戏数据或进程的序列化区域设置。</summary>
+public sealed record Language(string Code, string ResourcePath)
+{
+    public ResourceDictionary Resources { get; } = new() { Source = new Uri("/SpaceEditor;component/" + ResourcePath, UriKind.Relative) };
+    public string DisplayName => (string) this.Resources["LanguageName"];
+}
+
 public sealed class LocalizationManager : INotifyPropertyChanged
 {
+    public static IReadOnlyList<Language> Languages { get; } =
+    [
+        new("en", "Localization/Strings.en.xaml"),
+        new("zh-CN", "Localization/Strings.zh-CN.xaml"),
+    ];
+
     public static LocalizationManager Current { get; } = new();
     public event PropertyChangedEventHandler? PropertyChanged;
-    private string languageCode = "en";
-    private ResourceDictionary? languageResources;
-    private Dictionary<string, string> names = new(StringComparer.OrdinalIgnoreCase);
+    private Language language = Languages[0];
 
     public string LanguageCode
     {
-        get => this.languageCode;
+        get => this.language.Code;
         set
         {
-            if (value is not ("en" or "zh-CN") || value == this.languageCode)
+            var next = Languages.FirstOrDefault(x => x.Code == value);
+            if (next is null || ReferenceEquals(next, this.language))
                 return;
 
-            ResourceDictionary? dictionary = null;
-            var translatedNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            if (value == "zh-CN")
-            {
-                // 外部语言包优先；缺失时使用随程序集附带的翻译。
-                using var pack = LoadPack();
-                dictionary = new ResourceDictionary();
-                if (pack.RootElement.TryGetProperty("strings", out var strings) && strings.ValueKind == JsonValueKind.Object)
-                    foreach (var item in strings.EnumerateObject())
-                        if (item.Value.ValueKind == JsonValueKind.String)
-                            dictionary[item.Name] = item.Value.GetString()!;
-                if (pack.RootElement.TryGetProperty("names", out var nameEntries) && nameEntries.ValueKind == JsonValueKind.Object)
-                    foreach (var item in nameEntries.EnumerateObject())
-                        if (item.Value.ValueKind == JsonValueKind.String)
-                            translatedNames[item.Name] = item.Value.GetString()!;
-            }
-
+            // English stays merged from App.xaml underneath, so keys missing in the selected language fall back to it
             var resources = Application.Current.Resources.MergedDictionaries;
-            if (this.languageResources is not null)
-                resources.Remove(this.languageResources);
-            if (dictionary is not null)
-                resources.Add(dictionary);
-            this.languageResources = dictionary;
-            this.names = translatedNames;
-            this.languageCode = value;
+            resources.Remove(this.language.Resources);
+            resources.Add(next.Resources);
+            this.language = next;
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LanguageCode)));
         }
     }
@@ -57,29 +46,21 @@ public sealed class LocalizationManager : INotifyPropertyChanged
         return args.Length == 0 ? text : string.Format(text, args);
     }
 
-    public static string DisplayName(string name) => Current.LanguageCode == "zh-CN" ? ChineseText.DisplayName(name) : name;
-    public static string PropertyName(string name) => Current.LanguageCode == "zh-CN" ? ChineseText.PropertyName(name) : name;
-    internal static string? NameTranslation(string name) => Current.names.GetValueOrDefault(name);
+    public static string? TranslateName(string name) => Application.Current.TryFindResource("Name." + name) as string;
 
-    private static JsonDocument LoadPack()
+    public static string PropertyName(string name) => TranslateName(name) ?? DisplayName(name);
+
+    public static string DisplayName(string name)
     {
-        var path = Path.Combine(AppContext.BaseDirectory, "Localization", "zh-CN.json");
-        try
-        {
-            if (File.Exists(path))
-            {
-                using var external = File.OpenRead(path);
-                var document = JsonDocument.Parse(external);
-                if (document.RootElement.ValueKind == JsonValueKind.Object)
-                    return document;
-                document.Dispose();
-            }
-        }
-        catch (IOException) { }
-        catch (UnauthorizedAccessException) { }
-        catch (JsonException) { }
+        if (string.IsNullOrWhiteSpace(name))
+            return name;
 
-        using var embedded = typeof(LocalizationManager).Assembly.GetManifestResourceStream("SpaceEditor.Localization.zh-CN.json")!;
-        return JsonDocument.Parse(embedded);
+        if (TranslateName(name) is { } exact)
+            return exact == name ? name : Text("NameWithOriginal", exact, name);
+
+        var spaced = Regex.Replace(name, @"([a-z0-9])([A-Z])", "$1 $2");
+        spaced = Regex.Replace(spaced, @"([A-Z])([A-Z][a-z])", "$1 $2");
+        var translated = Regex.Replace(spaced, @"[A-Za-z]+", match => TranslateName(match.Value) ?? match.Value);
+        return translated == spaced ? name : Text("NameWithOriginal", translated, name);
     }
 }

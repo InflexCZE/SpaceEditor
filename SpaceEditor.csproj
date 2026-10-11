@@ -11,10 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Tests\**\*.cs" />
     <Content Include="SpaceEditor.ico" />
-    <EmbeddedResource Include="Localization\zh-CN.json" />
-    <Content Include="Localization\zh-CN.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Resource Include="Resources\**\*.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

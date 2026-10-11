@@ -14,11 +14,11 @@ public class FlatGroupingDataGridOperator : PropertyGridOperator
     protected override void SetProperties(PropertyItem pi, object instance)
     {
         base.SetProperties(pi, instance);
-        pi.Category = instance.GetType().Name;
-        if (LocalizationManager.Current.LanguageCode == "zh-CN")
-        {
-            pi.Category = LocalizationManager.DisplayName(pi.Category);
-            pi.DisplayName = LocalizationManager.PropertyName(pi.Descriptor.Name);
-        }
+        pi.Category = LocalizationManager.DisplayName(instance.GetType().Name);
+
+        // Untranslated names keep the label PropertyTools generated
+        var name = LocalizationManager.PropertyName(pi.Descriptor.Name);
+        if (name != pi.Descriptor.Name)
+            pi.DisplayName = name;
     }
 }

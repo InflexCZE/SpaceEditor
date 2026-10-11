@@ -1,0 +1,205 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LanguageName" xml:space="preserve">简体中文</sys:String>
+    <sys:String x:Key="NameWithOriginal" xml:space="preserve">{0}（{1}）</sys:String>
+    <sys:String x:Key="AsyncView_Loading" xml:space="preserve">正在加载……</sys:String>
+    <sys:String x:Key="BlueprintDimensions" xml:space="preserve">方块数：X：{0}  Y：{1}  Z：{2}  总计：{3}</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Blueprint" xml:space="preserve">蓝图：</sys:String>
+    <sys:String x:Key="BlueprintGenerator_BlueprintGeneratorallowsyoutoquickly" xml:space="preserve">蓝图生成器可以将三维模型转换为游戏内蓝图。</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Blueprintgeneratorisexperimentalfeature" xml:space="preserve">蓝图生成器目前为实验性功能。</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Draw" xml:space="preserve">显示</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Furtherimprovementswillbedonebased" xml:space="preserve">后续将根据使用反馈继续改进。</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Iwouldliketoexaminethe" xml:space="preserve">将蓝图导出为模型</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Model" xml:space="preserve">模型：</sys:String>
+    <sys:String x:Key="BlueprintGenerator_SelectModel" xml:space="preserve">选择模型</sys:String>
+    <sys:String x:Key="BlueprintGenerator_Startbyselectingmodel" xml:space="preserve">请先选择一个模型文件。</sys:String>
+    <sys:String x:Key="BlueprintGenerator_TheBlueprintlooksgoodExportit" xml:space="preserve">导出蓝图到游戏</sys:String>
+    <sys:String x:Key="BlueprintGenerator_ThePreviewlooksgoodConvertit" xml:space="preserve">生成蓝图</sys:String>
+    <sys:String x:Key="BlueprintGenerator_XRay" xml:space="preserve">透视</sys:String>
+    <sys:String x:Key="BlueprintTab" xml:space="preserve">蓝图生成器</sys:String>
+    <sys:String x:Key="CharacterEditor_Charactereditorallowsyoutochange" xml:space="preserve">角色编辑器可以修改游戏中角色的属性。</sys:String>
+    <sys:String x:Key="CharacterEditor_ConnecttoGame" xml:space="preserve">连接游戏</sys:String>
+    <sys:String x:Key="CharacterEditor_Disconnect" xml:space="preserve">断开连接</sys:String>
+    <sys:String x:Key="CharacterEditor_Experimentfreelywiththesettingsin" xml:space="preserve">可在右侧面板调整设置，查看预览效果。</sys:String>
+    <sys:String x:Key="CharacterEditor_Oncereadyconnecttogameand" xml:space="preserve">调整完成后，连接正在运行的游戏，编辑器会自动将设置同步到游戏中。</sys:String>
+    <sys:String x:Key="CharacterTab" xml:space="preserve">角色编辑</sys:String>
+    <sys:String x:Key="ChooseGameFirst" xml:space="preserve">请先选择游戏的安装目录。</sys:String>
+    <sys:String x:Key="ChooseGameFolder" xml:space="preserve">选择《太空工程师 2》的安装目录</sys:String>
+    <sys:String x:Key="ChooseModel" xml:space="preserve">选择要转换为蓝图的三维模型</sys:String>
+    <sys:String x:Key="ConnectionSuccess" xml:space="preserve">连接成功</sys:String>
+    <sys:String x:Key="ContinueQuestion" xml:space="preserve">是否继续？</sys:String>
+    <sys:String x:Key="CurrentPreset" xml:space="preserve">当前游戏设置</sys:String>
+    <sys:String x:Key="FeatureHint" xml:space="preserve">请选择上方标签页使用各项功能。</sys:String>
+    <sys:String x:Key="GameModificationWarning" xml:space="preserve">此操作将修改游戏内容，可能导致兼容性问题、异常或崩溃。</sys:String>
+    <sys:String x:Key="KeyBindsEditor_ApplytoGame" xml:space="preserve">应用到游戏</sys:String>
+    <sys:String x:Key="KeyBindsEditor_Remove" xml:space="preserve">删除预设</sys:String>
+    <sys:String x:Key="KeyBindsEditor_Save" xml:space="preserve">保存预设</sys:String>
+    <sys:String x:Key="KeyBindsTab" xml:space="preserve">按键绑定</sys:String>
+    <sys:String x:Key="LanguageLabel" xml:space="preserve">语言：</sys:String>
+    <sys:String x:Key="LoadingComplete" xml:space="preserve">加载完成</sys:String>
+    <sys:String x:Key="LoadingError" xml:space="preserve">初始化加载时发生错误：</sys:String>
+    <sys:String x:Key="LoadingStatus" xml:space="preserve">正在加载……</sys:String>
+    <sys:String x:Key="MainAssembly" xml:space="preserve">游戏主程序集：</sys:String>
+    <sys:String x:Key="MainWindow_Added05mBlockstoBlueprint" xml:space="preserve">- 蓝图生成器新增 0.5 米方块</sys:String>
+    <sys:String x:Key="MainWindow_Addedautocheckforlatestversion" xml:space="preserve">- 新增自动检查更新功能</sys:String>
+    <sys:String x:Key="MainWindow_AddedBlueprintGenerator" xml:space="preserve">- 新增蓝图生成器</sys:String>
+    <sys:String x:Key="MainWindow_AddedCharacterEditor" xml:space="preserve">- 新增角色编辑器</sys:String>
+    <sys:String x:Key="MainWindow_AddedModelscalingtoBlueprintGenerator" xml:space="preserve">- 蓝图生成器新增模型缩放功能</sys:String>
+    <sys:String x:Key="MainWindow_AddedPCUUnlocker" xml:space="preserve">- 新增 PCU 解锁工具</sys:String>
+    <sys:String x:Key="MainWindow_Aug102025v103" xml:space="preserve">2025年8月10日 - v1.0.3</sys:String>
+    <sys:String x:Key="MainWindow_CanchangeCharactersuitcolor" xml:space="preserve">- 支持修改角色宇航服颜色</sys:String>
+    <sys:String x:Key="MainWindow_Changelog" xml:space="preserve">更新日志</sys:String>
+    <sys:String x:Key="MainWindow_Dec32025v111" xml:space="preserve">2025年12月3日 - v1.1.1</sys:String>
+    <sys:String x:Key="MainWindow_Fixeddetectionofbinslocationin" xml:space="preserve">- 修复 Steam 版本游戏程序目录的识别问题</sys:String>
+    <sys:String x:Key="MainWindow_FixedGamecrashwhenimporting0" xml:space="preserve">- 修复导入 0.5 米方块蓝图时游戏崩溃的问题</sys:String>
+    <sys:String x:Key="MainWindow_FixedPCUunlockertoaccountalso" xml:space="preserve">- 修复 PCU 解锁：同时处理垃圾清理配置中的重复数据</sys:String>
+    <sys:String x:Key="MainWindow_Fixedsometimesbuggyrenderof3D" xml:space="preserve">- 修复三维视口偶发的渲染异常</sys:String>
+    <sys:String x:Key="MainWindow_Jul262025v100" xml:space="preserve">2025年7月26日 - v1.0.0</sys:String>
+    <sys:String x:Key="MainWindow_Jul282025v101" xml:space="preserve">2025年7月28日 - v1.0.1</sys:String>
+    <sys:String x:Key="MainWindow_Jul292025v102" xml:space="preserve">2025年7月29日 - v1.0.2</sys:String>
+    <sys:String x:Key="MainWindow_Jun72025v093" xml:space="preserve">2025年6月7日 - v0.9.3</sys:String>
+    <sys:String x:Key="MainWindow_KeyBindsEditorMk1" xml:space="preserve"> - 首版按键绑定编辑器</sys:String>
+    <sys:String x:Key="MainWindow_LocateGame" xml:space="preserve">选择游戏目录</sys:String>
+    <sys:String x:Key="MainWindow_LocatesandloadsSE2binaries" xml:space="preserve">- 定位并加载《太空工程师 2》程序文件</sys:String>
+    <sys:String x:Key="MainWindow_Main" xml:space="preserve">主页</sys:String>
+    <sys:String x:Key="MainWindow_May122025v09" xml:space="preserve">2025年5月12日 - v0.9</sys:String>
+    <sys:String x:Key="MainWindow_May122025v091" xml:space="preserve">2025年5月12日 - v0.9.1</sys:String>
+    <sys:String x:Key="MainWindow_May132025v092" xml:space="preserve">2025年5月13日 - v0.9.2</sys:String>
+    <sys:String x:Key="MainWindow_Newversionavailable" xml:space="preserve">发现新版本。</sys:String>
+    <sys:String x:Key="MainWindow_Nov302025v110" xml:space="preserve">2025年11月30日 - v1.1.0</sys:String>
+    <sys:String x:Key="MainWindow_ReadyforVS2" xml:space="preserve">- 支持 VS2 版本</sys:String>
+    <sys:String x:Key="MainWindow_Seewhatsnew" xml:space="preserve">查看更新内容</sys:String>
+    <sys:String x:Key="MainWindow_WritesnewBindingstoSE2Content" xml:space="preserve"> - 将新的按键绑定写入游戏内容</sys:String>
+    <sys:String x:Key="ModelDimensions" xml:space="preserve">尺寸：{0:f2} × {1:f2} × {2:f2} 米</sys:String>
+    <sys:String x:Key="ModelFileFilter" xml:space="preserve">模型文件 (*.obj)|*.obj</sys:String>
+    <sys:String x:Key="ModelName" xml:space="preserve">模型：{0}</sys:String>
+    <sys:String x:Key="ModelPerformanceWarning" xml:space="preserve">模型较大，转换时可能出现性能问题。</sys:String>
+    <sys:String x:Key="ModelTooLarge" xml:space="preserve">模型过大，无法安全转换。</sys:String>
+    <sys:String x:Key="OwnRisk" xml:space="preserve">请自行评估修改风险。</sys:String>
+    <sys:String x:Key="PcuTab" xml:space="preserve">PCU 解锁</sys:String>
+    <sys:String x:Key="PCUUnlocker_UnlockmyPCU" xml:space="preserve">解锁 PCU 上限</sys:String>
+    <sys:String x:Key="PCUUnlocker_WillmakeyourPCUpoolso" xml:space="preserve">大幅提高 PCU 上限，让大型建造不再受额度限制。</sys:String>
+    <sys:String x:Key="PcuUnlockError" xml:space="preserve">无法解锁 PCU。游戏内容可能已更新。
+请尝试使用最新版工具。</sys:String>
+    <sys:String x:Key="PresetBackup" xml:space="preserve">备份 {0}</sys:String>
+    <sys:String x:Key="ReflectedCollection_AddBinding" xml:space="preserve">添加绑定</sys:String>
+    <sys:String x:Key="ReflectedCollection_RemoveBinding" xml:space="preserve">删除绑定</sys:String>
+    <sys:String x:Key="RestoreGameHint" xml:space="preserve">如遇问题，可使用 Steam 的“验证游戏文件的完整性”功能恢复原始游戏文件。</sys:String>
+    <sys:String x:Key="SaveModel" xml:space="preserve">将蓝图导出为 OBJ 模型</sys:String>
+    <sys:String x:Key="ScaleDown" xml:space="preserve">请先缩小模型。</sys:String>
+    <sys:String x:Key="ScaleRecommendation" xml:space="preserve">建议先缩小模型。</sys:String>
+    <sys:String x:Key="TestingConnection" xml:space="preserve">正在测试连接……</sys:String>
+    <sys:String x:Key="UnnamedBlueprint" xml:space="preserve">未命名蓝图</sys:String>
+    <sys:String x:Key="WarningTitle" xml:space="preserve">操作确认</sys:String>
+    <sys:String x:Key="Name.GeneratorSettings" xml:space="preserve">蓝图生成设置</sys:String>
+    <sys:String x:Key="Name.ModelSettings" xml:space="preserve">模型设置</sys:String>
+    <sys:String x:Key="Name.SlopesUpper" xml:space="preserve">生成顶部斜坡</sys:String>
+    <sys:String x:Key="Name.SlopesLower" xml:space="preserve">生成底部斜坡</sys:String>
+    <sys:String x:Key="Name.SlopesSides" xml:space="preserve">生成侧面斜坡</sys:String>
+    <sys:String x:Key="Name.SlopesMustBeSupported" xml:space="preserve">斜坡必须有支撑</sys:String>
+    <sys:String x:Key="Name.BlockSize" xml:space="preserve">方块尺寸</sys:String>
+    <sys:String x:Key="Name.SwapXY" xml:space="preserve">交换 X / Y 轴</sys:String>
+    <sys:String x:Key="Name.SwapXZ" xml:space="preserve">交换 X / Z 轴</sys:String>
+    <sys:String x:Key="Name.SwapYZ" xml:space="preserve">交换 Y / Z 轴</sys:String>
+    <sys:String x:Key="Name.Recenter" xml:space="preserve">移至中心</sys:String>
+    <sys:String x:Key="Name.ModelSize" xml:space="preserve">模型尺寸（米）</sys:String>
+    <sys:String x:Key="Name.ApplyScale" xml:space="preserve">应用缩放</sys:String>
+    <sys:String x:Key="Name.Input" xml:space="preserve">输入</sys:String>
+    <sys:String x:Key="Name.InputId" xml:space="preserve">输入按键</sys:String>
+    <sys:String x:Key="Name.Control" xml:space="preserve">控制</sys:String>
+    <sys:String x:Key="Name.Controls" xml:space="preserve">控制项</sys:String>
+    <sys:String x:Key="Name.Bindings" xml:space="preserve">绑定</sys:String>
+    <sys:String x:Key="Name.Modifiers" xml:space="preserve">修饰键</sys:String>
+    <sys:String x:Key="Name.Modifier" xml:space="preserve">修饰键</sys:String>
+    <sys:String x:Key="Name.Scale" xml:space="preserve">缩放</sys:String>
+    <sys:String x:Key="Name.Sensitivity" xml:space="preserve">灵敏度</sys:String>
+    <sys:String x:Key="Name.DeadZone" xml:space="preserve">死区</sys:String>
+    <sys:String x:Key="Name.Invert" xml:space="preserve">反转</sys:String>
+    <sys:String x:Key="Name.Inverted" xml:space="preserve">反转</sys:String>
+    <sys:String x:Key="Name.Enabled" xml:space="preserve">启用</sys:String>
+    <sys:String x:Key="Name.Threshold" xml:space="preserve">阈值</sys:String>
+    <sys:String x:Key="Name.Digital" xml:space="preserve">按键</sys:String>
+    <sys:String x:Key="Name.Analog" xml:space="preserve">模拟轴</sys:String>
+    <sys:String x:Key="Name.Pointer" xml:space="preserve">指针</sys:String>
+    <sys:String x:Key="Name.Keyboard" xml:space="preserve">键盘</sys:String>
+    <sys:String x:Key="Name.Mouse" xml:space="preserve">鼠标</sys:String>
+    <sys:String x:Key="Name.Gamepad" xml:space="preserve">手柄</sys:String>
+    <sys:String x:Key="Name.Left" xml:space="preserve">左</sys:String>
+    <sys:String x:Key="Name.Right" xml:space="preserve">右</sys:String>
+    <sys:String x:Key="Name.Middle" xml:space="preserve">中</sys:String>
+    <sys:String x:Key="Name.Button" xml:space="preserve">按钮</sys:String>
+    <sys:String x:Key="Name.Axis" xml:space="preserve">轴</sys:String>
+    <sys:String x:Key="Name.Wheel" xml:space="preserve">滚轮</sys:String>
+    <sys:String x:Key="Name.Scroll" xml:space="preserve">滚动</sys:String>
+    <sys:String x:Key="Name.Up" xml:space="preserve">上</sys:String>
+    <sys:String x:Key="Name.Down" xml:space="preserve">下</sys:String>
+    <sys:String x:Key="Name.Forward" xml:space="preserve">前进</sys:String>
+    <sys:String x:Key="Name.Backward" xml:space="preserve">后退</sys:String>
+    <sys:String x:Key="Name.Move" xml:space="preserve">移动</sys:String>
+    <sys:String x:Key="Name.Movement" xml:space="preserve">移动</sys:String>
+    <sys:String x:Key="Name.Look" xml:space="preserve">视角</sys:String>
+    <sys:String x:Key="Name.Rotate" xml:space="preserve">旋转</sys:String>
+    <sys:String x:Key="Name.Jump" xml:space="preserve">跳跃</sys:String>
+    <sys:String x:Key="Name.Crouch" xml:space="preserve">蹲下</sys:String>
+    <sys:String x:Key="Name.Sprint" xml:space="preserve">冲刺</sys:String>
+    <sys:String x:Key="Name.Walk" xml:space="preserve">行走</sys:String>
+    <sys:String x:Key="Name.Roll" xml:space="preserve">翻滚</sys:String>
+    <sys:String x:Key="Name.Yaw" xml:space="preserve">偏航</sys:String>
+    <sys:String x:Key="Name.Pitch" xml:space="preserve">俯仰</sys:String>
+    <sys:String x:Key="Name.Use" xml:space="preserve">使用</sys:String>
+    <sys:String x:Key="Name.Interact" xml:space="preserve">交互</sys:String>
+    <sys:String x:Key="Name.Primary" xml:space="preserve">主要</sys:String>
+    <sys:String x:Key="Name.Secondary" xml:space="preserve">次要</sys:String>
+    <sys:String x:Key="Name.Action" xml:space="preserve">操作</sys:String>
+    <sys:String x:Key="Name.Actions" xml:space="preserve">操作</sys:String>
+    <sys:String x:Key="Name.Toggle" xml:space="preserve">切换</sys:String>
+    <sys:String x:Key="Name.Jetpack" xml:space="preserve">喷气背包</sys:String>
+    <sys:String x:Key="Name.Dampeners" xml:space="preserve">惯性阻尼器</sys:String>
+    <sys:String x:Key="Name.Lights" xml:space="preserve">灯光</sys:String>
+    <sys:String x:Key="Name.Helmet" xml:space="preserve">头盔</sys:String>
+    <sys:String x:Key="Name.Inventory" xml:space="preserve">物品栏</sys:String>
+    <sys:String x:Key="Name.Terminal" xml:space="preserve">终端</sys:String>
+    <sys:String x:Key="Name.Toolbar" xml:space="preserve">工具栏</sys:String>
+    <sys:String x:Key="Name.Slot" xml:space="preserve">槽位</sys:String>
+    <sys:String x:Key="Name.Camera" xml:space="preserve">摄像机</sys:String>
+    <sys:String x:Key="Name.Zoom" xml:space="preserve">缩放</sys:String>
+    <sys:String x:Key="Name.Build" xml:space="preserve">建造</sys:String>
+    <sys:String x:Key="Name.Block" xml:space="preserve">方块</sys:String>
+    <sys:String x:Key="Name.Voxel" xml:space="preserve">体素</sys:String>
+    <sys:String x:Key="Name.Paint" xml:space="preserve">涂色</sys:String>
+    <sys:String x:Key="Name.Color" xml:space="preserve">颜色</sys:String>
+    <sys:String x:Key="Name.Copy" xml:space="preserve">复制</sys:String>
+    <sys:String x:Key="Name.Paste" xml:space="preserve">粘贴</sys:String>
+    <sys:String x:Key="Name.Delete" xml:space="preserve">删除</sys:String>
+    <sys:String x:Key="Name.Cancel" xml:space="preserve">取消</sys:String>
+    <sys:String x:Key="Name.Confirm" xml:space="preserve">确认</sys:String>
+    <sys:String x:Key="Name.Menu" xml:space="preserve">菜单</sys:String>
+    <sys:String x:Key="Name.Pause" xml:space="preserve">暂停</sys:String>
+    <sys:String x:Key="Name.Chat" xml:space="preserve">聊天</sys:String>
+    <sys:String x:Key="Name.Unknown" xml:space="preserve">未知</sys:String>
+    <sys:String x:Key="Name.ControlBuilder" xml:space="preserve">控制器</sys:String>
+    <sys:String x:Key="Name.DigitalControlBuilder" xml:space="preserve">按键控制器</sys:String>
+    <sys:String x:Key="Name.AnalogControlBuilder" xml:space="preserve">模拟轴控制器</sys:String>
+    <sys:String x:Key="Name.PointerControlBuilder" xml:space="preserve">指针控制器</sys:String>
+    <sys:String x:Key="Name.Press" xml:space="preserve">按下</sys:String>
+    <sys:String x:Key="Name.Release" xml:space="preserve">松开</sys:String>
+    <sys:String x:Key="Name.Hold" xml:space="preserve">按住</sys:String>
+    <sys:String x:Key="Name.Positive" xml:space="preserve">正向</sys:String>
+    <sys:String x:Key="Name.Negative" xml:space="preserve">负向</sys:String>
+    <sys:String x:Key="Name.Absolute" xml:space="preserve">绝对</sys:String>
+    <sys:String x:Key="Name.Relative" xml:space="preserve">相对</sys:String>
+    <sys:String x:Key="Name.Combination" xml:space="preserve">组合</sys:String>
+    <sys:String x:Key="Name.Composite" xml:space="preserve">组合</sys:String>
+    <sys:String x:Key="Name.Shift" xml:space="preserve">Shift</sys:String>
+    <sys:String x:Key="Name.Ctrl" xml:space="preserve">Ctrl</sys:String>
+    <sys:String x:Key="Name.ControlKey" xml:space="preserve">Ctrl</sys:String>
+    <sys:String x:Key="Name.Alt" xml:space="preserve">Alt</sys:String>
+    <sys:String x:Key="Name.Space" xml:space="preserve">空格</sys:String>
+    <sys:String x:Key="Name.Enter" xml:space="preserve">回车</sys:String>
+    <sys:String x:Key="Name.Escape" xml:space="preserve">Esc</sys:String>
+    <sys:String x:Key="Name.Tab" xml:space="preserve">Tab</sys:String>
+    <sys:String x:Key="Name.Backspace" xml:space="preserve">退格</sys:String>
+    <sys:String x:Key="Name.PageUp" xml:space="preserve">Page Up</sys:String>
+    <sys:String x:Key="Name.PageDown" xml:space="preserve">Page Down</sys:String>
+    <sys:String x:Key="Name.2.5m" xml:space="preserve">2.5 米</sys:String>
+    <sys:String x:Key="Name.0.5m (VERY VERY slow on large ships!)" xml:space="preserve">0.5 米（大型飞船转换非常慢）</sys:String>
+</ResourceDictionary>

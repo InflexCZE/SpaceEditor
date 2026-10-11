@@ -22,22 +22,17 @@ Space Editor 是用于编辑《太空工程师 2》（Space Engineers 2）游戏
 
 ## 中文语言包
 
-翻译文件为可执行文件旁的 `Localization/zh-CN.json`。可以单独替换这个文件更新中文文案，无需重新编译程序。替换后重启程序，或切回英文再选择简体中文以重新加载。
+中文翻译位于 `Localization/Strings.zh-CN.xaml`，随程序一起编译。英文资源 `Localization/Strings.en.xaml` 始终作为后备：尚未翻译的文案显示英文。
 
-此方式适用于已经包含本项目语言加载入口的版本。未经集成的旧版程序不会自动读取语言包。原作者新增的文案还需接入语言资源；尚未翻译的资源显示英文，未知动态名称保留原文。
+以 `Name.` 开头的键用于翻译属性、按键和控制器等游戏名称；未收录的名称保留原文。
 
-语言包结构和维护方法见 [语言包说明](Localization/语言包说明.md)。
-
-## 构建与检查
+## 构建
 
 安装 .NET 9 SDK 后，在项目根目录执行：
 
 ```powershell
 dotnet build SpaceEditor.csproj -c Release -r win-x64 --self-contained false
-dotnet run --project Tests/LocalizationChecks.csproj -c Release
 ```
-
-自动检查不显示窗口，不加载游戏，不读写游戏文件或用户设置。游戏连接、实际操作与界面布局仍需人工验收。
 
 ## 恢复游戏文件
 
