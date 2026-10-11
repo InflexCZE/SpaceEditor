@@ -45,6 +45,7 @@
     <sys:String x:Key="MainWindow_AddedCharacterEditor" xml:space="preserve">- Added Character Editor</sys:String>
     <sys:String x:Key="MainWindow_AddedModelscalingtoBlueprintGenerator" xml:space="preserve">- Added Model scaling to Blueprint Generator</sys:String>
     <sys:String x:Key="MainWindow_AddedPCUUnlocker" xml:space="preserve">- Added PCU Unlocker</sys:String>
+    <sys:String x:Key="MainWindow_AddedSimplifiedChineselocalization" xml:space="preserve">- Added Simplified Chinese localization (thanks Roign)</sys:String>
     <sys:String x:Key="MainWindow_Aug102025v103" xml:space="preserve">Aug 10 2025 - v1.0.3</sys:String>
     <sys:String x:Key="MainWindow_CanchangeCharactersuitcolor" xml:space="preserve">- Can change Character suit color</sys:String>
     <sys:String x:Key="MainWindow_Changelog" xml:space="preserve">Change log</sys:String>
@@ -66,7 +67,9 @@
     <sys:String x:Key="MainWindow_May132025v092" xml:space="preserve">May 13 2025 - v0.9.2</sys:String>
     <sys:String x:Key="MainWindow_Newversionavailable" xml:space="preserve">New version available.</sys:String>
     <sys:String x:Key="MainWindow_Nov302025v110" xml:space="preserve">Nov 30 2025 - v1.1.0</sys:String>
+    <sys:String x:Key="MainWindow_Oct112026v120" xml:space="preserve">Oct 11 2026 - v1.2.0</sys:String>
     <sys:String x:Key="MainWindow_ReadyforVS2" xml:space="preserve">- Ready for VS2</sys:String>
+    <sys:String x:Key="MainWindow_RemovedKeyBindseditor" xml:space="preserve">- Removed Key Binds editor, the game now has built-in key binding</sys:String>
     <sys:String x:Key="MainWindow_Seewhatsnew" xml:space="preserve">See what&apos;s new!</sys:String>
     <sys:String x:Key="MainWindow_WritesnewBindingstoSE2Content" xml:space="preserve"> - Writes new Bindings to SE2 Content</sys:String>
     <sys:String x:Key="ModelDimensions" xml:space="preserve">Size: {0:f2} x {1:f2} x {2:f2}m</sys:String>

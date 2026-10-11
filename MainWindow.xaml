@@ -120,6 +120,14 @@
                         <TextBlock
                             Margin="10, 0, 0, 0"
                             >
+                            <Run FontSize="20" FontWeight="Bold" Text="{DynamicResource MainWindow_Oct112026v120}" />
+                            <LineBreak />
+                            <Run Text="{DynamicResource MainWindow_AddedSimplifiedChineselocalization}" />
+                            <LineBreak />
+                            <Run Text="{DynamicResource MainWindow_RemovedKeyBindseditor}" />
+                            <LineBreak />
+                            <LineBreak />
+
                             <Run FontSize="20" FontWeight="Bold" Text="{DynamicResource MainWindow_Dec32025v111}" />
                             <LineBreak />
                             <Run Text="{DynamicResource MainWindow_FixedPCUunlockertoaccountalso}" />

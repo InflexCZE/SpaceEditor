@@ -45,6 +45,7 @@
     <sys:String x:Key="MainWindow_AddedCharacterEditor" xml:space="preserve">- 新增角色编辑器</sys:String>
     <sys:String x:Key="MainWindow_AddedModelscalingtoBlueprintGenerator" xml:space="preserve">- 蓝图生成器新增模型缩放功能</sys:String>
     <sys:String x:Key="MainWindow_AddedPCUUnlocker" xml:space="preserve">- 新增 PCU 解锁工具</sys:String>
+    <sys:String x:Key="MainWindow_AddedSimplifiedChineselocalization" xml:space="preserve">- 新增简体中文界面（感谢 Roign）</sys:String>
     <sys:String x:Key="MainWindow_Aug102025v103" xml:space="preserve">2025年8月10日 - v1.0.3</sys:String>
     <sys:String x:Key="MainWindow_CanchangeCharactersuitcolor" xml:space="preserve">- 支持修改角色宇航服颜色</sys:String>
     <sys:String x:Key="MainWindow_Changelog" xml:space="preserve">更新日志</sys:String>
@@ -66,7 +67,9 @@
     <sys:String x:Key="MainWindow_May132025v092" xml:space="preserve">2025年5月13日 - v0.9.2</sys:String>
     <sys:String x:Key="MainWindow_Newversionavailable" xml:space="preserve">发现新版本。</sys:String>
     <sys:String x:Key="MainWindow_Nov302025v110" xml:space="preserve">2025年11月30日 - v1.1.0</sys:String>
+    <sys:String x:Key="MainWindow_Oct112026v120" xml:space="preserve">2026年10月11日 - v1.2.0</sys:String>
     <sys:String x:Key="MainWindow_ReadyforVS2" xml:space="preserve">- 支持 VS2 版本</sys:String>
+    <sys:String x:Key="MainWindow_RemovedKeyBindseditor" xml:space="preserve">- 移除按键绑定编辑器，游戏现已内置按键绑定功能</sys:String>
     <sys:String x:Key="MainWindow_Seewhatsnew" xml:space="preserve">查看更新内容</sys:String>
     <sys:String x:Key="MainWindow_WritesnewBindingstoSE2Content" xml:space="preserve"> - 将新的按键绑定写入游戏内容</sys:String>
     <sys:String x:Key="ModelDimensions" xml:space="preserve">尺寸：{0:f2} × {1:f2} × {2:f2} 米</sys:String>
